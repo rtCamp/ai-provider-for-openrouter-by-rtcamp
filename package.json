@@ -20,7 +20,7 @@
 	},
 	"dependencies": {
 		"@wordpress/api-fetch": "^7.47.0",
-		"@wordpress/dom-ready": "^4.47.0",
+		"@wordpress/dom-ready": "^4.48.0",
 		"@wordpress/i18n": "^6.20.0"
 	},
 	"devDependencies": {
