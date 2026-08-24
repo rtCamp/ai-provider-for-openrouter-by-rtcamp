@@ -25,7 +25,7 @@ This plugin provides OpenRouter integration for the WordPress AI Client. It allo
 
 == Installation ==
 1. Ensure the WordPress AI plugin is installed and activated.
-2. Upload plugin files to `/wp-content/plugins/connector-for-openrouter/`.
+2. Upload plugin files to `/wp-content/plugins/ai-provider-for-openrouter-by-rtcamp/`.
 3. Activate plugin through the Plugins menu in WordPress.
 4. Add your OpenRouter API key in **Settings > Connectors**.
 5. Configure defaults in **Settings > OpenRouter Settings**.

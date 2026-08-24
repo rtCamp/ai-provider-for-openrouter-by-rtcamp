@@ -2,17 +2,17 @@
 /**
  * OpenRouter Image Generation Model.
  *
- * @package rtcamp/connector-for-openrouter
+ * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
  *
  * @since 1.0.0
  */
 
 declare( strict_types=1 );
 
-namespace rtCamp\ConnectorForOpenrouter\Models;
+namespace rtCamp\AIProviderForOpenRouterByrtCamp\Models;
 
-use rtCamp\ConnectorForOpenrouter\Provider\OpenRouterProvider;
-use rtCamp\ConnectorForOpenrouter\Settings\OpenRouterSettings;
+use rtCamp\AIProviderForOpenRouterByrtCamp\Provider\OpenRouterProvider;
+use rtCamp\AIProviderForOpenRouterByrtCamp\Settings\OpenRouterSettings;
 use WordPress\AiClient\Common\Exception\InvalidArgumentException;
 use WordPress\AiClient\Files\DTO\File;
 use WordPress\AiClient\Files\Enums\MediaOrientationEnum;

@@ -2,17 +2,17 @@
 /**
  * OpenRouter Text Generation Model.
  *
- * @package rtcamp/connector-for-openrouter
+ * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
  *
  * @since 1.0.0
  */
 
 declare( strict_types=1 );
 
-namespace rtCamp\ConnectorForOpenrouter\Models;
+namespace rtCamp\AIProviderForOpenRouterByrtCamp\Models;
 
-use rtCamp\ConnectorForOpenrouter\Provider\OpenRouterProvider;
-use rtCamp\ConnectorForOpenrouter\Settings\OpenRouterSettings;
+use rtCamp\AIProviderForOpenRouterByrtCamp\Provider\OpenRouterProvider;
+use rtCamp\AIProviderForOpenRouterByrtCamp\Settings\OpenRouterSettings;
 use WordPress\AiClient\Providers\Http\DTO\Request;
 use WordPress\AiClient\Providers\Http\DTO\Response;
 use WordPress\AiClient\Providers\Http\Enums\HttpMethodEnum;

@@ -1,5 +1,5 @@
 {
-	"name": "connector-for-openrouter",
+	"name": "ai-provider-for-openrouter-by-rtcamp",
 	"private": true,
 	"files": [
 		"build",
@@ -8,11 +8,11 @@
 		"src",
 		"README.md",
 		"readme.txt",
-		"connector-for-openrouter.php"
+		"ai-provider-for-openrouter-by-rtcamp.php"
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/rtcamp/connector-for-openrouter.git"
+		"url": "https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp.git"
 	},
 	"engines": {
 		"node": ">=22.0.0",
@@ -43,7 +43,7 @@
 		"lint:php:stan": "composer run-script phpstan",
 		"lint:php": "composer run-script lint",
 		"lint": "npm-run-all --parallel lint:*",
-		"i18n:pot": "wp i18n make-pot . languages/connector-for-openrouter.pot --domain=connector-for-openrouter --exclude=node_modules,vendor,tests",
+		"i18n:pot": "wp i18n make-pot . languages/ai-provider-for-openrouter-by-rtcamp.pot --domain=ai-provider-for-openrouter-by-rtcamp --exclude=node_modules,vendor,tests",
 		"plugin-zip": "wp-scripts plugin-zip"
 	},
 	"overrides": {

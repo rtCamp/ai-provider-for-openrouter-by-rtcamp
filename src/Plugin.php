@@ -3,19 +3,19 @@
  * The main plugin class.
  *
  * @since 1.0.0
- * @package rtcamp/connector-for-openrouter
+ * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
  */
 
 declare( strict_types=1 );
 
-namespace rtCamp\ConnectorForOpenrouter;
+namespace rtCamp\AIProviderForOpenRouterByrtCamp;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use rtCamp\ConnectorForOpenrouter\Provider\OpenRouterProvider;
-use rtCamp\ConnectorForOpenrouter\Settings\OpenRouterSettings;
+use rtCamp\AIProviderForOpenRouterByrtCamp\Provider\OpenRouterProvider;
+use rtCamp\AIProviderForOpenRouterByrtCamp\Settings\OpenRouterSettings;
 use WordPress\AiClient\AiClient;
 use WordPress\AiClient\Providers\Http\DTO\ApiKeyRequestAuthentication;
 
@@ -129,8 +129,8 @@ class Plugin {
 	public function plugin_action_links( array $links ): array {
 		$settings_link = sprintf(
 			'<a href="%1$s">%2$s</a>',
-			admin_url( 'options-general.php?page=connector-for-openrouter' ),
-			esc_html__( 'Settings', 'connector-for-openrouter' )
+			admin_url( 'options-general.php?page=ai-provider-for-openrouter-by-rtcamp' ),
+			esc_html__( 'Settings', 'ai-provider-for-openrouter-by-rtcamp' )
 		);
 
 		array_unshift( $links, $settings_link );

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Connector for OpenRouter
- * Plugin URI:        https://github.com/rtcamp/connector-for-openrouter
+ * Plugin URI:        https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp
  * Description:       OpenRouter provider for the WordPress AI Client. Access hundreds of AI models (text and image generation) through a single API.
  * Requires at least: 7.0
  * Requires PHP:      7.4
@@ -11,15 +11,15 @@
  * Author URI:        https://rtcamp.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       connector-for-openrouter
+ * Text Domain:       ai-provider-for-openrouter-by-rtcamp
  * Domain Path:       /languages
  *
- * @package rtCamp\ConnectorForOpenrouter
+ * @package rtCamp\AIProviderForOpenRouterByrtCamp
  */
 
 declare( strict_types=1 );
 
-namespace rtCamp\ConnectorForOpenrouter;
+namespace rtCamp\AIProviderForOpenRouterByrtCamp;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -67,7 +67,7 @@ function check_php_version(): bool {
 				requirement_notice(
 					sprintf(
 						/* translators: 1: Required PHP version, 2: Current PHP version */
-						__( 'The OpenRouter Provider plugin requires PHP version %1$s or higher. You are running PHP version %2$s.', 'connector-for-openrouter' ),
+						__( 'The OpenRouter Provider plugin requires PHP version %1$s or higher. You are running PHP version %2$s.', 'ai-provider-for-openrouter-by-rtcamp' ),
 						AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_MIN_PHP_VERSION,
 						PHP_VERSION
 					)
@@ -99,7 +99,7 @@ function check_wp_version(): bool {
 				requirement_notice(
 					sprintf(
 						/* translators: 1: Required WordPress version, 2: Current WordPress version */
-						__( 'The OpenRouter Provider plugin requires WordPress version %1$s or higher. You are running WordPress version %2$s.', 'connector-for-openrouter' ),
+						__( 'The OpenRouter Provider plugin requires WordPress version %1$s or higher. You are running WordPress version %2$s.', 'ai-provider-for-openrouter-by-rtcamp' ),
 						AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_MIN_WP_VERSION,
 						$wp_version
 					)
@@ -126,7 +126,7 @@ function check_ai_client(): bool {
 			'admin_notices',
 			static function () {
 				requirement_notice(
-					__( 'The OpenRouter Provider plugin requires the WordPress AI Client (php-ai-client) to be installed.', 'connector-for-openrouter' )
+					__( 'The OpenRouter Provider plugin requires the WordPress AI Client (php-ai-client) to be installed.', 'ai-provider-for-openrouter-by-rtcamp' )
 				);
 			}
 		);

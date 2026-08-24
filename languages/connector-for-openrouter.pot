@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Connector for OpenRouter 1.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/connector-for-openrouter\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ai-provider-for-openrouter-by-rtcamp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,44 +12,44 @@ msgstr ""
 "POT-Creation-Date: 2026-06-02T14:24:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
-"X-Domain: connector-for-openrouter\n"
+"X-Domain: ai-provider-for-openrouter-by-rtcamp\n"
 
 #. Plugin Name of the plugin
-#: connector-for-openrouter.php
+#: ai-provider-for-openrouter-by-rtcamp.php
 msgid "Connector for OpenRouter"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: connector-for-openrouter.php
-msgid "https://github.com/rtcamp/connector-for-openrouter"
+#: ai-provider-for-openrouter-by-rtcamp.php
+msgid "https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp"
 msgstr ""
 
 #. Description of the plugin
-#: connector-for-openrouter.php
+#: ai-provider-for-openrouter-by-rtcamp.php
 msgid "OpenRouter provider for the WordPress AI Client. Access hundreds of AI models (text and image generation) through a single API."
 msgstr ""
 
 #. Author of the plugin
-#: connector-for-openrouter.php
+#: ai-provider-for-openrouter-by-rtcamp.php
 msgid "rtCamp"
 msgstr ""
 
 #. Author URI of the plugin
-#: connector-for-openrouter.php
+#: ai-provider-for-openrouter-by-rtcamp.php
 msgid "https://rtcamp.com"
 msgstr ""
 
 #. translators: 1: Required PHP version, 2: Current PHP version
-#: connector-for-openrouter.php:70
+#: ai-provider-for-openrouter-by-rtcamp.php:70
 msgid "The OpenRouter Provider plugin requires PHP version %1$s or higher. You are running PHP version %2$s."
 msgstr ""
 
 #. translators: 1: Required WordPress version, 2: Current WordPress version
-#: connector-for-openrouter.php:102
+#: ai-provider-for-openrouter-by-rtcamp.php:102
 msgid "The OpenRouter Provider plugin requires WordPress version %1$s or higher. You are running WordPress version %2$s."
 msgstr ""
 
-#: connector-for-openrouter.php:129
+#: ai-provider-for-openrouter-by-rtcamp.php:129
 msgid "The OpenRouter Provider plugin requires the WordPress AI Client (php-ai-client) to be installed."
 msgstr ""
 

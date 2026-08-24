@@ -88,7 +88,7 @@ The plugin communicates with OpenRouter's OpenAI-compatible API at `https://open
 ### As a WordPress Plugin
 
 1. Ensure the **WordPress AI** plugin (`ai`) is installed and activated.
-2. Download or clone this plugin into `wp-content/plugins/connector-for-openrouter`.
+2. Download or clone this plugin into `wp-content/plugins/ai-provider-for-openrouter-by-rtcamp`.
 3. Activate **Connector for OpenRouter** from the Plugins screen.
 4. Add your OpenRouter API key in **Settings > Connectors**.
 5. Configure your default models in **Settings > OpenRouter Settings**.
@@ -96,7 +96,7 @@ The plugin communicates with OpenRouter's OpenAI-compatible API at `https://open
 ### As a Composer Package
 
 ```bash
-composer require rtcamp/connector-for-openrouter
+composer require rtcamp/ai-provider-for-openrouter-by-rtcamp
 ```
 
 ## Usage Guide
@@ -180,7 +180,7 @@ For advanced deployments, you can override defaults using PHP constants or envir
 
 Connector for OpenRouter is actively developed and maintained by [rtCamp](https://rtcamp.com/).
 
-- **Repository:** [https://github.com/rtcamp/connector-for-openrouter](https://github.com/rtcamp/connector-for-openrouter)
+- **Repository:** [https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp](https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp)
 
 We welcome contributions! Please open an issue or pull request on GitHub.
 
@@ -211,7 +211,7 @@ npm run lint
 npm run plugin-zip
 ```
 
-This creates `connector-for-openrouter.zip` in the plugin root, excluding all development-only files.
+This creates `ai-provider-for-openrouter-by-rtcamp.zip` in the plugin root, excluding all development-only files.
 
 ## Frequently Asked Questions
 
@@ -278,8 +278,8 @@ The plugin can be network-activated on multisite. Each site's settings are manag
 
 ## Support & Community
 
-- **Issues & Bug Reports:** [GitHub Issues](https://github.com/rtcamp/connector-for-openrouter/issues)
-- **Source Code:** [GitHub Repository](https://github.com/rtcamp/connector-for-openrouter)
+- **Issues & Bug Reports:** [GitHub Issues](https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp/issues)
+- **Source Code:** [GitHub Repository](https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp)
 
 ## License
 

@@ -18,10 +18,10 @@ parameters:
 			min: 80100
 			max: 80400
 		bootstrapFiles:
-				- connector-for-openrouter.php
+				- ai-provider-for-openrouter-by-rtcamp.php
 
 		paths:
-				- connector-for-openrouter.php
+				- ai-provider-for-openrouter-by-rtcamp.php
 				- src/
 		scanDirectories:
 				- vendor/wordpress/php-ai-client/src/
