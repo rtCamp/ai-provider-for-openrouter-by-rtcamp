@@ -86,14 +86,17 @@ interface OpenRouterModel {
 			return __('Unavailable', 'ai-provider-for-openrouter-by-rtcamp');
 		}
 		if (price === 0) {
-			return i18n.free || __('Free', 'ai-provider-for-openrouter-by-rtcamp');
+			return (
+				i18n.free || __('Free', 'ai-provider-for-openrouter-by-rtcamp')
+			);
 		}
 
 		// Handle visual assets and other absolute pricing units
 		if (key === 'image' || key === 'web_search') {
 			const unit =
 				key === 'image'
-					? ' ' + __('/ image', 'ai-provider-for-openrouter-by-rtcamp')
+					? ' ' +
+						__('/ image', 'ai-provider-for-openrouter-by-rtcamp')
 					: ' ' + __('/ req', 'ai-provider-for-openrouter-by-rtcamp');
 			let formatted = '';
 			const exponent = Math.floor(Math.log(price) / Math.LN10);
@@ -124,7 +127,8 @@ interface OpenRouterModel {
 				: '$' + perMillion.toPrecision(3);
 		return (
 			formatted +
-			(i18n.perMillion || __('/1M', 'ai-provider-for-openrouter-by-rtcamp'))
+			(i18n.perMillion ||
+				__('/1M', 'ai-provider-for-openrouter-by-rtcamp'))
 		);
 	}
 
@@ -300,7 +304,8 @@ interface OpenRouterModel {
 				model.context_length && typeof model.context_length === 'number'
 					? formatContext(model.context_length) +
 						' ' +
-						(i18n.ctx || __('ctx', 'ai-provider-for-openrouter-by-rtcamp'))
+						(i18n.ctx ||
+							__('ctx', 'ai-provider-for-openrouter-by-rtcamp'))
 					: '';
 			const nameDisplay =
 				model.name && model.name !== modelId ? model.name : '';
@@ -328,7 +333,8 @@ interface OpenRouterModel {
 					: '') +
 				'<span class="openrouter-dropdown-item-meta">' +
 				escapeHtml(
-					i18n.inPrice || __('Prompt:', 'ai-provider-for-openrouter-by-rtcamp')
+					i18n.inPrice ||
+						__('Prompt:', 'ai-provider-for-openrouter-by-rtcamp')
 				) +
 				' <strong class="openrouter-dropdown-item-price-val">' +
 				escapeHtml(inputPrice) +
@@ -336,7 +342,10 @@ interface OpenRouterModel {
 				'&nbsp;&nbsp;' +
 				escapeHtml(
 					i18n.outPrice ||
-						__('Completion:', 'ai-provider-for-openrouter-by-rtcamp')
+						__(
+							'Completion:',
+							'ai-provider-for-openrouter-by-rtcamp'
+						)
 				) +
 				' <strong class="openrouter-dropdown-item-price-val">' +
 				escapeHtml(outputPrice) +
@@ -387,12 +396,14 @@ interface OpenRouterModel {
 	function formatPricingKey(key: string): string {
 		if (key === 'prompt') {
 			return (
-				i18n.inPrice || __('Prompt:', 'ai-provider-for-openrouter-by-rtcamp')
+				i18n.inPrice ||
+				__('Prompt:', 'ai-provider-for-openrouter-by-rtcamp')
 			).replace(/:$/, '');
 		}
 		if (key === 'completion') {
 			return (
-				i18n.outPrice || __('Completion:', 'ai-provider-for-openrouter-by-rtcamp')
+				i18n.outPrice ||
+				__('Completion:', 'ai-provider-for-openrouter-by-rtcamp')
 			).replace(/:$/, '');
 		}
 		return key
@@ -423,7 +434,8 @@ interface OpenRouterModel {
 			model.context_length && typeof model.context_length === 'number'
 				? formatContext(model.context_length) +
 					' ' +
-					(i18n.ctx || __('ctx', 'ai-provider-for-openrouter-by-rtcamp'))
+					(i18n.ctx ||
+						__('ctx', 'ai-provider-for-openrouter-by-rtcamp'))
 				: '';
 
 		let pricingHtml = '';
@@ -476,7 +488,10 @@ interface OpenRouterModel {
 					escapeHtml(model.id) +
 					'" target="_blank" rel="noopener noreferrer" class="openrouter-info-external-link">' +
 					escapeHtml(
-						__('View on OpenRouter', 'ai-provider-for-openrouter-by-rtcamp')
+						__(
+							'View on OpenRouter',
+							'ai-provider-for-openrouter-by-rtcamp'
+						)
 					) +
 					'</a>';
 			}
@@ -620,7 +635,8 @@ interface OpenRouterModel {
 		infoEl: HTMLElement
 	): void {
 		statusEl.textContent =
-			i18n.loading || __('Loading models…', 'ai-provider-for-openrouter-by-rtcamp');
+			i18n.loading ||
+			__('Loading models…', 'ai-provider-for-openrouter-by-rtcamp');
 		statusEl.className = 'openrouter-status openrouter-status-loading';
 
 		apiFetch<OpenRouterModel[]>({
@@ -634,7 +650,10 @@ interface OpenRouterModel {
 					allModels.length +
 					' ' +
 					(i18n.modelsCount ||
-						__('models available.', 'ai-provider-for-openrouter-by-rtcamp'));
+						__(
+							'models available.',
+							'ai-provider-for-openrouter-by-rtcamp'
+						));
 				statusEl.className =
 					'openrouter-status openrouter-status-ready';
 				statusEl.style.color = ''; // reset to stylesheet default
@@ -652,7 +671,10 @@ interface OpenRouterModel {
 				statusEl.textContent =
 					err?.message ||
 					i18n.errorLoad ||
-					__('Could not load models.', 'ai-provider-for-openrouter-by-rtcamp');
+					__(
+						'Could not load models.',
+						'ai-provider-for-openrouter-by-rtcamp'
+					);
 				statusEl.className = 'openrouter-status';
 				statusEl.style.color = '#d63638';
 			});
@@ -671,7 +693,8 @@ interface OpenRouterModel {
 		imageInfoEl: HTMLElement
 	): void {
 		imageStatusEl.textContent =
-			i18n.loading || __('Loading models…', 'ai-provider-for-openrouter-by-rtcamp');
+			i18n.loading ||
+			__('Loading models…', 'ai-provider-for-openrouter-by-rtcamp');
 		imageStatusEl.className = 'openrouter-status openrouter-status-loading';
 
 		apiFetch<OpenRouterModel[]>({
@@ -684,7 +707,10 @@ interface OpenRouterModel {
 				imageStatusEl.textContent =
 					allImageModels.length +
 					' ' +
-					__('image models available.', 'ai-provider-for-openrouter-by-rtcamp');
+					__(
+						'image models available.',
+						'ai-provider-for-openrouter-by-rtcamp'
+					);
 				imageStatusEl.className =
 					'openrouter-status openrouter-status-ready';
 				imageStatusEl.style.color = ''; // reset to stylesheet default
@@ -703,7 +729,10 @@ interface OpenRouterModel {
 				imageStatusEl.textContent =
 					err?.message ||
 					i18n.errorLoad ||
-					__('Could not load models.', 'ai-provider-for-openrouter-by-rtcamp');
+					__(
+						'Could not load models.',
+						'ai-provider-for-openrouter-by-rtcamp'
+					);
 				imageStatusEl.className = 'openrouter-status';
 				imageStatusEl.style.color = '#d63638';
 			});
@@ -823,14 +852,20 @@ interface OpenRouterModel {
 			if (!isImageLoaded) {
 				imageStatusEl.textContent =
 					i18n.loading ||
-					__('Loading models…', 'ai-provider-for-openrouter-by-rtcamp');
+					__(
+						'Loading models…',
+						'ai-provider-for-openrouter-by-rtcamp'
+					);
 				return;
 			}
 
 			imageStatusEl.textContent =
 				getImageModelMatches('').length +
 				' ' +
-				__('image models available.', 'ai-provider-for-openrouter-by-rtcamp');
+				__(
+					'image models available.',
+					'ai-provider-for-openrouter-by-rtcamp'
+				);
 			filterImageModels(
 				this.value.trim().toLowerCase(),
 				imageDropdown,
