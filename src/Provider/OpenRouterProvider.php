@@ -99,7 +99,7 @@ class OpenRouterProvider extends AbstractApiProvider {
 			'https://openrouter.ai/docs/api/reference/overview',
 			RequestAuthenticationMethod::apiKey(),
 			__( 'OpenRouter is a unified API gateway for hundreds of AI models from leading providers including Anthropic, Google, Meta, Mistral, and more.', 'connector-for-openrouter' ),
-			CONNECTOR_FOR_OPENROUTER_PLUGIN_DIR . 'assets/images/openrouter-logo.svg'
+			AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_DIR . 'assets/images/openrouter-logo.svg'
 		);
 	}
 

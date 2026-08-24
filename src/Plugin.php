@@ -36,7 +36,7 @@ class Plugin {
 		add_action( 'init', [ $this, 'register_fallback_auth' ], 15 );
 		add_action( 'init', [ $this, 'initialize_settings' ] );
 		add_filter( 'ai_experiments_preferred_image_models', [ $this, 'prepend_openrouter_image_model' ], 5 );
-		add_filter( 'plugin_action_links_' . plugin_basename( CONNECTOR_FOR_OPENROUTER_PLUGIN_FILE ), [ $this, 'plugin_action_links' ] );
+		add_filter( 'plugin_action_links_' . plugin_basename( AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_FILE ), [ $this, 'plugin_action_links' ] );
 	}
 
 	/**
