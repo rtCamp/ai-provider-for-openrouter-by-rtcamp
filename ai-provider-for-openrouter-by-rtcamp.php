@@ -5,7 +5,6 @@
  * Description:       OpenRouter provider for the WordPress AI Client. Access hundreds of AI models (text and image generation) through a single API.
  * Requires at least: 7.0
  * Requires PHP:      7.4
- * Requires Plugins:  ai
  * Version:           1.1.0
  * Author:            rtCamp
  * Author URI:        https://rtcamp.com
