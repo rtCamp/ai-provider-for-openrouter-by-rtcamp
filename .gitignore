@@ -18,7 +18,7 @@ Thumbs.db
 build/
 build-module/
 build-types/
-connector-for-openrouter.zip
+ai-provider-for-openrouter-by-rtcamp.zip
 
 # Environment
 .env

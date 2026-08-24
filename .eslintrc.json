@@ -16,7 +16,7 @@
 		}
 	},
 	"globals": {
-		"ConnectorForOpenrouterSettings": true
+		"AIProviderForOpenRouterByrtCampSettings": true
 	},
 	"rules": {
 		"eslint-comments/no-unlimited-disable": "error",

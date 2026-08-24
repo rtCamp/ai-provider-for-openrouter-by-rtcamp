@@ -24,8 +24,8 @@
 /wp-assets
 
 # Duplicate packaged folder and archives
-/connector-for-openrouter
-/connector-for-openrouter.zip
+/ai-provider-for-openrouter-by-rtcamp
+/ai-provider-for-openrouter-by-rtcamp.zip
 *.zip
 
 # Git files

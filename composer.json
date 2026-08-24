@@ -1,5 +1,5 @@
 {
-	"name": "rtcamp/connector-for-openrouter",
+	"name": "rtcamp/ai-provider-for-openrouter-by-rtcamp",
 	"description": "OpenRouter provider for the PHP AI Client SDK. Works as both a Composer package and WordPress plugin.",
 	"license": "GPL-2.0-or-later",
 	"keywords": [
@@ -15,10 +15,10 @@
 			"homepage": "https://rtcamp.com"
 		}
 	],
-	"homepage": "https://github.com/rtcamp/connector-for-openrouter",
+	"homepage": "https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp",
 	"support": {
-		"issues": "https://github.com/rtcamp/connector-for-openrouter/issues",
-		"source": "https://github.com/rtcamp/connector-for-openrouter"
+		"issues": "https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp/issues",
+		"source": "https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp"
 	},
 	"require": {
 		"php": ">=7.4"
@@ -40,7 +40,7 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"rtCamp\\ConnectorForOpenrouter\\": "src/"
+			"rtCamp\\AIProviderForOpenRouterByrtCamp\\": "src/"
 		}
 	},
 	"require-dev": {

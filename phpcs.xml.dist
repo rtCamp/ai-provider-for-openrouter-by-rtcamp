@@ -7,7 +7,7 @@
 	<description>Sniffs for Connector for OpenRouter plugin</description>
 
 	<file>./src/</file>
-	<file>./connector-for-openrouter.php</file>
+	<file>./ai-provider-for-openrouter-by-rtcamp.php</file>
 
 	<exclude-pattern>**/build/**</exclude-pattern>
 	<exclude-pattern>**/node_modules/**</exclude-pattern>

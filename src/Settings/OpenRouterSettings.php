@@ -2,14 +2,14 @@
 /**
  * OpenRouter Settings.
  *
- * @package rtcamp/connector-for-openrouter
+ * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
  *
  * @since 1.0.0
  */
 
 declare( strict_types=1 );
 
-namespace rtCamp\ConnectorForOpenrouter\Settings;
+namespace rtCamp\AIProviderForOpenRouterByrtCamp\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -23,10 +23,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class OpenRouterSettings {
 
-	private const OPTION_GROUP  = 'connector_for_openrouter_settings';
-	private const OPTION_NAME   = 'connector_for_openrouter_settings';
-	private const PAGE_SLUG     = 'connector-for-openrouter';
-	private const SECTION_ID    = 'connector_for_openrouter_main';
+	private const OPTION_GROUP  = 'ai_provider_for_openrouter_by_rtcamp_settings';
+	private const OPTION_NAME   = 'ai_provider_for_openrouter_by_rtcamp_settings';
+	private const PAGE_SLUG     = 'ai-provider-for-openrouter-by-rtcamp';
+	private const SECTION_ID    = 'ai_provider_for_openrouter_by_rtcamp_main';
 	private const KEY_MODEL     = 'model';
 	private const KEY_IMAGE_MODEL = 'image_model';
 	private const MODELS_TRANSIENT = 'ai_openrouter_models_v1';
@@ -72,7 +72,7 @@ class OpenRouterSettings {
 
 		add_settings_field(
 			self::OPTION_NAME . '_model',
-			__( 'Default Model', 'connector-for-openrouter' ),
+			__( 'Default Model', 'ai-provider-for-openrouter-by-rtcamp' ),
 			[ $this, 'render_model_field' ],
 			self::PAGE_SLUG,
 			self::SECTION_ID,
@@ -81,7 +81,7 @@ class OpenRouterSettings {
 
 		add_settings_field(
 			self::OPTION_NAME . '_image_model',
-			__( 'Image Generation Model', 'connector-for-openrouter' ),
+			__( 'Image Generation Model', 'ai-provider-for-openrouter-by-rtcamp' ),
 			[ $this, 'render_image_model_field' ],
 			self::PAGE_SLUG,
 			self::SECTION_ID,
@@ -96,8 +96,8 @@ class OpenRouterSettings {
 	 */
 	public function register_settings_screen(): void {
 		add_options_page(
-			__( 'OpenRouter Settings', 'connector-for-openrouter' ),
-			__( 'OpenRouter Settings', 'connector-for-openrouter' ),
+			__( 'OpenRouter Settings', 'ai-provider-for-openrouter-by-rtcamp' ),
+			__( 'OpenRouter Settings', 'ai-provider-for-openrouter-by-rtcamp' ),
 			'manage_options',
 			self::PAGE_SLUG,
 			[ $this, 'render_screen' ]
@@ -143,11 +143,11 @@ class OpenRouterSettings {
 			<!-- Header Card -->
 			<div class="openrouter-header-card">
 				<div class="openrouter-header-logo">
-					<img src="<?php echo esc_url( plugins_url( 'assets/images/openrouter-logo.svg', CONNECTOR_FOR_OPENROUTER_PLUGIN_FILE ) ); ?>" alt="<?php esc_attr_e( 'OpenRouter Logo', 'connector-for-openrouter' ); ?>" width="32" height="32" />
+					<img src="<?php echo esc_url( plugins_url( 'assets/images/openrouter-logo.svg', AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_FILE ) ); ?>" alt="<?php esc_attr_e( 'OpenRouter Logo', 'ai-provider-for-openrouter-by-rtcamp' ); ?>" width="32" height="32" />
 				</div>
 				<div class="openrouter-header-text">
 					<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-					<p class="openrouter-subtitle"><?php esc_html_e( 'Connect and configure default AI intelligence models seamlessly.', 'connector-for-openrouter' ); ?></p>
+					<p class="openrouter-subtitle"><?php esc_html_e( 'Connect and configure default AI intelligence models seamlessly.', 'ai-provider-for-openrouter-by-rtcamp' ); ?></p>
 				</div>
 			</div>
 
@@ -158,12 +158,12 @@ class OpenRouterSettings {
 						<span class="dashicons dashicons-admin-generic"></span>
 					</div>
 					<div class="openrouter-card-body">
-						<h3><?php esc_html_e( 'API Key Configuration', 'connector-for-openrouter' ); ?></h3>
+						<h3><?php esc_html_e( 'API Key Configuration', 'ai-provider-for-openrouter-by-rtcamp' ); ?></h3>
 						<p>
 							<?php
 							printf(
 								/* translators: 1: opening anchor tag, 2: closing anchor tag */
-								esc_html__( 'OpenRouter requires an API key to process requests. Set up your credentials under %1$sSettings > Connectors%2$s.', 'connector-for-openrouter' ),
+								esc_html__( 'OpenRouter requires an API key to process requests. Set up your credentials under %1$sSettings > Connectors%2$s.', 'ai-provider-for-openrouter-by-rtcamp' ),
 								'<a href="' . esc_url( admin_url( 'options-connectors.php' ) ) . '" class="openrouter-link">',
 								'</a>'
 							);
@@ -177,12 +177,12 @@ class OpenRouterSettings {
 						<span class="dashicons dashicons-search"></span>
 					</div>
 					<div class="openrouter-card-body">
-						<h3><?php esc_html_e( 'Explore Hundreds of Models', 'connector-for-openrouter' ); ?></h3>
+						<h3><?php esc_html_e( 'Explore Hundreds of Models', 'ai-provider-for-openrouter-by-rtcamp' ); ?></h3>
 						<p>
 							<?php
 							printf(
 								/* translators: 1: opening anchor tag, 2: closing anchor tag */
-								esc_html__( 'Compare pricing, speed, latency, and context windows dynamically at %1$sopenrouter.ai/models%2$s.', 'connector-for-openrouter' ),
+								esc_html__( 'Compare pricing, speed, latency, and context windows dynamically at %1$sopenrouter.ai/models%2$s.', 'ai-provider-for-openrouter-by-rtcamp' ),
 								'<a href="https://openrouter.ai/models" target="_blank" rel="noopener noreferrer" class="openrouter-link">',
 								'</a>'
 							);
@@ -232,10 +232,10 @@ class OpenRouterSettings {
 					type="text"
 					id="<?php echo esc_attr( $input_id ); ?>"
 					class="regular-text openrouter-search-input"
-					placeholder="<?php esc_attr_e( 'Type 3+ letters to search models…', 'connector-for-openrouter' ); ?>"
+					placeholder="<?php esc_attr_e( 'Type 3+ letters to search models…', 'ai-provider-for-openrouter-by-rtcamp' ); ?>"
 					value="<?php echo esc_attr( $current_model ); ?>"
 					autocomplete="off"
-					aria-label="<?php esc_attr_e( 'Search OpenRouter models', 'connector-for-openrouter' ); ?>"
+					aria-label="<?php esc_attr_e( 'Search OpenRouter models', 'ai-provider-for-openrouter-by-rtcamp' ); ?>"
 				/>
 				<input
 					type="hidden"
@@ -250,9 +250,9 @@ class OpenRouterSettings {
 				></div>
 			</div>
 
-			<span class="openrouter-tooltip-wrapper" tabindex="0" aria-describedby="openrouter-model-tooltip-desc" aria-label="<?php esc_attr_e( 'Model help description', 'connector-for-openrouter' ); ?>">
+			<span class="openrouter-tooltip-wrapper" tabindex="0" aria-describedby="openrouter-model-tooltip-desc" aria-label="<?php esc_attr_e( 'Model help description', 'ai-provider-for-openrouter-by-rtcamp' ); ?>">
 				<span class="dashicons dashicons-editor-help"></span>
-				<span id="openrouter-model-tooltip-desc" role="tooltip" class="openrouter-tooltip-text"><?php esc_html_e( 'Choose a default OpenRouter model override. Leave empty to use the model requested by AI Client.', 'connector-for-openrouter' ); ?></span>
+				<span id="openrouter-model-tooltip-desc" role="tooltip" class="openrouter-tooltip-text"><?php esc_html_e( 'Choose a default OpenRouter model override. Leave empty to use the model requested by AI Client.', 'ai-provider-for-openrouter-by-rtcamp' ); ?></span>
 			</span>
 			<span id="openrouter-model-status" class="openrouter-status"></span>
 		</div>
@@ -282,10 +282,10 @@ class OpenRouterSettings {
 					type="text"
 					id="<?php echo esc_attr( $input_id ); ?>"
 					class="regular-text openrouter-search-input"
-					placeholder="<?php esc_attr_e( 'Type to search image models…', 'connector-for-openrouter' ); ?>"
+					placeholder="<?php esc_attr_e( 'Type to search image models…', 'ai-provider-for-openrouter-by-rtcamp' ); ?>"
 					value="<?php echo esc_attr( $current_image_model ); ?>"
 					autocomplete="off"
-					aria-label="<?php esc_attr_e( 'Search OpenRouter image generation models', 'connector-for-openrouter' ); ?>"
+					aria-label="<?php esc_attr_e( 'Search OpenRouter image generation models', 'ai-provider-for-openrouter-by-rtcamp' ); ?>"
 				/>
 				<input
 					type="hidden"
@@ -300,9 +300,9 @@ class OpenRouterSettings {
 				></div>
 			</div>
 
-			<span class="openrouter-tooltip-wrapper" tabindex="0" aria-describedby="openrouter-image-model-tooltip-desc" aria-label="<?php esc_attr_e( 'Image model help description', 'connector-for-openrouter' ); ?>">
+			<span class="openrouter-tooltip-wrapper" tabindex="0" aria-describedby="openrouter-image-model-tooltip-desc" aria-label="<?php esc_attr_e( 'Image model help description', 'ai-provider-for-openrouter-by-rtcamp' ); ?>">
 				<span class="dashicons dashicons-editor-help"></span>
-				<span id="openrouter-image-model-tooltip-desc" role="tooltip" class="openrouter-tooltip-text"><?php esc_html_e( 'Choose a dedicated image generation model. This autocomplete lists all OpenRouter models that support image output.', 'connector-for-openrouter' ); ?></span>
+				<span id="openrouter-image-model-tooltip-desc" role="tooltip" class="openrouter-tooltip-text"><?php esc_html_e( 'Choose a dedicated image generation model. This autocomplete lists all OpenRouter models that support image output.', 'ai-provider-for-openrouter-by-rtcamp' ); ?></span>
 			</span>
 			<span id="openrouter-image-model-status" class="openrouter-status"></span>
 		</div>
@@ -312,7 +312,7 @@ class OpenRouterSettings {
 		<hr class="openrouter-hr" />
 
 		<p class="description openrouter-description-italic">
-			<?php esc_html_e( 'Suggestions show input price, output price (per 1M tokens), and context length. Be aware that pricing for some models is based on average text and image output, which isn\'t listed here. Please verify the exact pricing at openrouter.ai/models.', 'connector-for-openrouter' ); ?>
+			<?php esc_html_e( 'Suggestions show input price, output price (per 1M tokens), and context length. Be aware that pricing for some models is based on average text and image output, which isn\'t listed here. Please verify the exact pricing at openrouter.ai/models.', 'ai-provider-for-openrouter-by-rtcamp' ); ?>
 		</p>
 
 		<?php
@@ -330,7 +330,7 @@ class OpenRouterSettings {
 			return;
 		}
 
-		$plugin_dir = CONNECTOR_FOR_OPENROUTER_PLUGIN_DIR;
+		$plugin_dir = AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_DIR;
 		$asset_file = $plugin_dir . 'build/admin/settings.asset.php';
 		$asset      = file_exists( $asset_file ) ? require $asset_file : []; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable -- Asset file path is built from a known constant.
 
@@ -338,39 +338,39 @@ class OpenRouterSettings {
 		$version      = isset( $asset['version'] ) ? $asset['version'] : false;
 
 		wp_enqueue_script(
-			'connector-for-openrouter-settings',
-			plugins_url( 'build/admin/settings.js', CONNECTOR_FOR_OPENROUTER_PLUGIN_FILE ),
+			'ai-provider-for-openrouter-by-rtcamp-settings',
+			plugins_url( 'build/admin/settings.js', AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_FILE ),
 			$dependencies,
 			$version,
 			true
 		);
 
 		wp_enqueue_style(
-			'connector-for-openrouter-settings',
-			plugins_url( 'build/admin/style-settings.css', CONNECTOR_FOR_OPENROUTER_PLUGIN_FILE ),
+			'ai-provider-for-openrouter-by-rtcamp-settings',
+			plugins_url( 'build/admin/style-settings.css', AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_FILE ),
 			[],
 			$version
 		);
-		wp_style_add_data( 'connector-for-openrouter-settings', 'rtl', 'replace' );
+		wp_style_add_data( 'ai-provider-for-openrouter-by-rtcamp-settings', 'rtl', 'replace' );
 
 		wp_localize_script(
-			'connector-for-openrouter-settings',
-			'ConnectorForOpenrouterSettings',
+			'ai-provider-for-openrouter-by-rtcamp-settings',
+			'AIProviderForOpenRouterByrtCampSettings',
 			[
 				'selectedModel'      => self::get_selected_model(),
 				'selectedImageModel' => self::get_selected_image_model(),
 				'i18n'               => [
-					'loading'     => __( 'Loading models…', 'connector-for-openrouter' ),
-					'noResults'   => __( 'No models found.', 'connector-for-openrouter' ),
-					'errorLoad'   => __( 'Could not load models.', 'connector-for-openrouter' ),
-					'typeMore'    => __( 'Type at least 3 characters to search.', 'connector-for-openrouter' ),
-					'modelsCount' => __( ' models available.', 'connector-for-openrouter' ),
-					'inPrice'     => __( 'Prompt:', 'connector-for-openrouter' ),
-					'outPrice'    => __( 'Completion:', 'connector-for-openrouter' ),
-					'ctx'         => __( 'ctx', 'connector-for-openrouter' ),
-					'perMillion'  => __( '/1M', 'connector-for-openrouter' ),
-					'free'        => __( 'Free', 'connector-for-openrouter' ),
-					'na'          => __( 'N/A', 'connector-for-openrouter' ),
+					'loading'     => __( 'Loading models…', 'ai-provider-for-openrouter-by-rtcamp' ),
+					'noResults'   => __( 'No models found.', 'ai-provider-for-openrouter-by-rtcamp' ),
+					'errorLoad'   => __( 'Could not load models.', 'ai-provider-for-openrouter-by-rtcamp' ),
+					'typeMore'    => __( 'Type at least 3 characters to search.', 'ai-provider-for-openrouter-by-rtcamp' ),
+					'modelsCount' => __( ' models available.', 'ai-provider-for-openrouter-by-rtcamp' ),
+					'inPrice'     => __( 'Prompt:', 'ai-provider-for-openrouter-by-rtcamp' ),
+					'outPrice'    => __( 'Completion:', 'ai-provider-for-openrouter-by-rtcamp' ),
+					'ctx'         => __( 'ctx', 'ai-provider-for-openrouter-by-rtcamp' ),
+					'perMillion'  => __( '/1M', 'ai-provider-for-openrouter-by-rtcamp' ),
+					'free'        => __( 'Free', 'ai-provider-for-openrouter-by-rtcamp' ),
+					'na'          => __( 'N/A', 'ai-provider-for-openrouter-by-rtcamp' ),
 				],
 			]
 		);
@@ -383,7 +383,7 @@ class OpenRouterSettings {
 	 */
 	public function register_rest_routes(): void {
 		register_rest_route(
-			'connector-for-openrouter/v1',
+			'ai-provider-for-openrouter-by-rtcamp/v1',
 			'/models',
 			[
 				'methods'             => 'GET',
@@ -393,7 +393,7 @@ class OpenRouterSettings {
 		);
 
 		register_rest_route(
-			'connector-for-openrouter/v1',
+			'ai-provider-for-openrouter-by-rtcamp/v1',
 			'/image-models',
 			[
 				'methods'             => 'GET',
@@ -443,7 +443,7 @@ class OpenRouterSettings {
 			return new \WP_REST_Response(
 				[
 					// translators: %s: Error message.
-					'message' => sprintf( __( 'Could not fetch OpenRouter models. Error: %s', 'connector-for-openrouter' ), $response->get_error_message() ),
+					'message' => sprintf( __( 'Could not fetch OpenRouter models. Error: %s', 'ai-provider-for-openrouter-by-rtcamp' ), $response->get_error_message() ),
 				],
 				500
 			);
@@ -453,7 +453,7 @@ class OpenRouterSettings {
 		$data = json_decode( $body, true );
 
 		if ( ! is_array( $data ) || ! isset( $data['data'] ) || ! is_array( $data['data'] ) ) {
-			return new \WP_REST_Response( [ 'message' => __( 'Unexpected response from OpenRouter models endpoint.', 'connector-for-openrouter' ) ], 500 );
+			return new \WP_REST_Response( [ 'message' => __( 'Unexpected response from OpenRouter models endpoint.', 'ai-provider-for-openrouter-by-rtcamp' ) ], 500 );
 		}
 
 		$models = array_values(
@@ -499,7 +499,7 @@ class OpenRouterSettings {
 			return new \WP_REST_Response(
 				[
 					// translators: %s: Error message.
-					'message' => sprintf( __( 'Could not fetch OpenRouter image models. Error: %s', 'connector-for-openrouter' ), $response->get_error_message() ),
+					'message' => sprintf( __( 'Could not fetch OpenRouter image models. Error: %s', 'ai-provider-for-openrouter-by-rtcamp' ), $response->get_error_message() ),
 				],
 				500
 			);
@@ -509,7 +509,7 @@ class OpenRouterSettings {
 		$data = json_decode( $body, true );
 
 		if ( ! is_array( $data ) || ! isset( $data['data'] ) || ! is_array( $data['data'] ) ) {
-			return new \WP_REST_Response( [ 'message' => __( 'Unexpected response from OpenRouter image models endpoint.', 'connector-for-openrouter' ) ], 500 );
+			return new \WP_REST_Response( [ 'message' => __( 'Unexpected response from OpenRouter image models endpoint.', 'ai-provider-for-openrouter-by-rtcamp' ) ], 500 );
 		}
 
 		$models = array_values(
