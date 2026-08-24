@@ -23,10 +23,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class OpenRouterSettings {
 
-	private const OPTION_GROUP  = 'connector_for_openrouter_settings';
-	private const OPTION_NAME   = 'connector_for_openrouter_settings';
+	private const OPTION_GROUP  = 'ai_provider_for_openrouter_by_rtcamp_settings';
+	private const OPTION_NAME   = 'ai_provider_for_openrouter_by_rtcamp_settings';
 	private const PAGE_SLUG     = 'ai-provider-for-openrouter-by-rtcamp';
-	private const SECTION_ID    = 'connector_for_openrouter_main';
+	private const SECTION_ID    = 'ai_provider_for_openrouter_by_rtcamp_main';
 	private const KEY_MODEL     = 'model';
 	private const KEY_IMAGE_MODEL = 'image_model';
 	private const MODELS_TRANSIENT = 'ai_openrouter_models_v1';

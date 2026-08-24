@@ -743,19 +743,19 @@ interface OpenRouterModel {
 	 */
 	function init(): void {
 		const searchInput = document.getElementById(
-			'connector_for_openrouter_settings-model-search'
+			'ai_provider_for_openrouter_by_rtcamp_settings-model-search'
 		) as HTMLInputElement | null;
 		const hiddenInput = document.getElementById(
-			'connector_for_openrouter_settings-model-value'
+			'ai_provider_for_openrouter_by_rtcamp_settings-model-value'
 		) as HTMLInputElement | null;
 		const dropdown = document.getElementById('openrouter-model-dropdown');
 		const infoEl = document.getElementById('openrouter-model-info');
 		const statusEl = document.getElementById('openrouter-model-status');
 		const imageSearchInput = document.getElementById(
-			'connector_for_openrouter_settings-image-model-search'
+			'ai_provider_for_openrouter_by_rtcamp_settings-image-model-search'
 		) as HTMLInputElement | null;
 		const imageHiddenInput = document.getElementById(
-			'connector_for_openrouter_settings-image-model-value'
+			'ai_provider_for_openrouter_by_rtcamp_settings-image-model-value'
 		) as HTMLInputElement | null;
 		const imageDropdown = document.getElementById(
 			'openrouter-image-model-dropdown'
