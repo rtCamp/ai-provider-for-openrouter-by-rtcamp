@@ -1,4 +1,4 @@
-=== Connector for OpenRouter ===
+=== AI Provider for OpenRouter by rtCamp ===
 Contributors:      rtcamp, milindmore22, vishal4669, aishwarryapande, aviralmittal89
 Tags:              ai, openrouter, llm, connector, image-generation
 Requires at least: 7.0
@@ -23,11 +23,10 @@ This plugin provides OpenRouter integration for the WordPress AI Client. It allo
 * Image generation using OpenRouter's chat completions image modality.
 
 == Installation ==
-1. Ensure the WordPress AI plugin is installed and activated.
-2. Upload plugin files to `/wp-content/plugins/ai-provider-for-openrouter-by-rtcamp/`.
-3. Activate plugin through the Plugins menu in WordPress.
-4. Add your OpenRouter API key in **Settings > Connectors**.
-5. Configure defaults in **Settings > OpenRouter Settings**.
+1. Upload plugin files to `/wp-content/plugins/ai-provider-for-openrouter-by-rtcamp/`.
+2. Activate **AI Provider for OpenRouter by rtCamp** through the Plugins menu in WordPress.
+3. Add your OpenRouter API key in **Settings > Connectors**.
+4. Configure defaults in **Settings > OpenRouter Settings**.
 
 == Screenshots ==
 1. Connector settings page showing OpenRouter API key configuration.
