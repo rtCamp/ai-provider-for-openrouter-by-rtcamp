@@ -157,7 +157,7 @@ class OpenRouterImageGenerationModel extends AbstractApiBasedModel implements Im
 		}
 
 		/** @var ImageGenerationParams $params */
-		return apply_filters( 'openrouter_image_generation_params', $params );
+		return apply_filters( 'ai_provider_for_openrouter_by_rtcamp_image_generation_params', $params );
 	}
 
 	/**

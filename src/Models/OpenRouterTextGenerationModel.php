@@ -52,7 +52,7 @@ class OpenRouterTextGenerationModel extends AbstractOpenAiCompatibleTextGenerati
 			$params['model'] = $selected_model;
 		}
 
-		return apply_filters( 'openrouter_text_generation_params', $params );
+		return apply_filters( 'ai_provider_for_openrouter_by_rtcamp_text_generation_params', $params );
 	}
 
 	/**
