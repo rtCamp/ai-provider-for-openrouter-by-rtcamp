@@ -85,7 +85,7 @@ class Plugin {
 			return;
 		}
 
-		$env_key = (string) getenv( 'OPENROUTER_API_KEY' );
+		$env_key = (string) getenv( 'AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_API_KEY' );
 		$registry->setProviderRequestAuthentication(
 			'openrouter',
 			new ApiKeyRequestAuthentication( $env_key )

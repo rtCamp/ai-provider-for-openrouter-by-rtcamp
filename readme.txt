@@ -1,13 +1,12 @@
-=== Connector for OpenRouter ===
+=== AI Provider for OpenRouter by rtCamp ===
 Contributors:      rtcamp, milindmore22, vishal4669, aishwarryapande, aviralmittal89
 Tags:              ai, openrouter, llm, connector, image-generation
 Requires at least: 7.0
 Requires PHP:      7.4
-Requires Plugins:  ai
-Stable tag:        1.1.0
+Stable tag:        1.1.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
-Tested up to:      7.0
+Tested up to:      7.1
 
 OpenRouter connector for the WordPress AI Client.
 
@@ -24,11 +23,10 @@ This plugin provides OpenRouter integration for the WordPress AI Client. It allo
 * Image generation using OpenRouter's chat completions image modality.
 
 == Installation ==
-1. Ensure the WordPress AI plugin is installed and activated.
-2. Upload plugin files to `/wp-content/plugins/ai-provider-for-openrouter-by-rtcamp/`.
-3. Activate plugin through the Plugins menu in WordPress.
-4. Add your OpenRouter API key in **Settings > Connectors**.
-5. Configure defaults in **Settings > OpenRouter Settings**.
+1. Upload plugin files to `/wp-content/plugins/ai-provider-for-openrouter-by-rtcamp/`.
+2. Activate **AI Provider for OpenRouter by rtCamp** through the Plugins menu in WordPress.
+3. Add your OpenRouter API key in **Settings > Connectors**.
+4. Configure defaults in **Settings > OpenRouter Settings**.
 
 == Screenshots ==
 1. Connector settings page showing OpenRouter API key configuration.
@@ -54,7 +52,16 @@ The cost depends on the models you choose. The settings page shows the cost per 
 
 The plugin defaults to `openrouter/free` for text and `openrouter/auto` for images as there are no free options available, but you can change this in the settings.
 
+== Source Code ==
+
+The source code is available on <a href="https://github.com/rtCamp/ai-provider-for-openrouter-by-rtcamp">GitHub</a>.
+
 == Changelog ==
+
+= 1.1.1 =
+* Renamed the plugin to "AI Provider for OpenRouter by rtCamp" for better clarity and branding.
+* Updated the plugin description to reflect the new name and provide a clearer overview of its functionality.
+* Updated slug, constants, and text domain to match the new plugin name for consistency across the codebase.
 
 = 1.1.0 =
 * Updated overall settings page UI for better user experience and added tooltips for each setting to provide more context and guidance to users.
