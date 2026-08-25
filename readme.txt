@@ -3,11 +3,10 @@ Contributors:      rtcamp, milindmore22, vishal4669, aishwarryapande, aviralmitt
 Tags:              ai, openrouter, llm, connector, image-generation
 Requires at least: 7.0
 Requires PHP:      7.4
-Requires Plugins:  ai
-Stable tag:        1.1.0
+Stable tag:        1.1.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
-Tested up to:      7.0
+Tested up to:      7.1
 
 OpenRouter connector for the WordPress AI Client.
 
@@ -54,7 +53,16 @@ The cost depends on the models you choose. The settings page shows the cost per 
 
 The plugin defaults to `openrouter/free` for text and `openrouter/auto` for images as there are no free options available, but you can change this in the settings.
 
+== Source Code ==
+
+The source code is available on <a href="https://github.com/rtCamp/ai-provider-for-lm-studio">GitHub</a>.
+
 == Changelog ==
+
+= 1.1.1 =
+* Renamed the plugin to "AI Provider for OpenRouter by rtCamp" for better clarity and branding.
+* Updated the plugin description to reflect the new name and provide a clearer overview of its functionality.
+* Updated slug, constants, and text domain to match the new plugin name for consistency across the codebase.
 
 = 1.1.0 =
 * Updated overall settings page UI for better user experience and added tooltips for each setting to provide more context and guidance to users.
