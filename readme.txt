@@ -55,7 +55,7 @@ The plugin defaults to `openrouter/free` for text and `openrouter/auto` for imag
 
 == Source Code ==
 
-The source code is available on <a href="https://github.com/rtCamp/ai-provider-for-lm-studio">GitHub</a>.
+The source code is available on <a href="https://github.com/rtCamp/ai-provider-for-openrouter-by-rtcamp">GitHub</a>.
 
 == Changelog ==
 
