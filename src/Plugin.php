@@ -76,18 +76,18 @@ class Plugin {
 
 		$registry = AiClient::defaultRegistry();
 
-		if ( ! $registry->hasProvider( 'openrouter' ) ) {
+		if ( ! $registry->hasProvider( 'ai-provider-for-openrouter-by-rtcamp' ) ) {
 			return;
 		}
 
-		$auth = $registry->getProviderRequestAuthentication( 'openrouter' );
+		$auth = $registry->getProviderRequestAuthentication( 'ai-provider-for-openrouter-by-rtcamp' );
 		if ( null !== $auth ) {
 			return;
 		}
 
 		$env_key = (string) getenv( 'AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_API_KEY' );
 		$registry->setProviderRequestAuthentication(
-			'openrouter',
+			'ai-provider-for-openrouter-by-rtcamp',
 			new ApiKeyRequestAuthentication( $env_key )
 		);
 	}
@@ -113,7 +113,7 @@ class Plugin {
 	public function prepend_openrouter_image_model( array $models ): array {
 		$selected = OpenRouterSettings::get_selected_image_model();
 		if ( '' !== $selected ) {
-			array_unshift( $models, [ 'openrouter', $selected ] );
+			array_unshift( $models, [ 'ai-provider-for-openrouter-by-rtcamp', $selected ] );
 		}
 		return $models;
 	}

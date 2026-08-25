@@ -93,12 +93,12 @@ class OpenRouterProvider extends AbstractApiProvider {
 	 */
 	protected static function createProviderMetadata(): ProviderMetadata {
 		return new ProviderMetadata(
-			'openrouter',
+			'ai-provider-for-openrouter-by-rtcamp',
 			'OpenRouter',
 			ProviderTypeEnum::cloud(),
 			'https://openrouter.ai/docs/api/reference/overview',
 			RequestAuthenticationMethod::apiKey(),
-			__( 'OpenRouter is a unified API gateway for hundreds of AI models from leading providers including Anthropic, Google, Meta, Mistral, and more.', 'ai-provider-for-openrouter-by-rtcamp' ),
+			__( 'Text and image generation using various models.', 'ai-provider-for-openrouter-by-rtcamp' ),
 			AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_DIR . 'assets/images/openrouter-logo.svg'
 		);
 	}

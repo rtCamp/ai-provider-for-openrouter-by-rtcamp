@@ -37,11 +37,11 @@ class OpenRouterProviderAvailability implements ProviderAvailabilityInterface {
 
 		$registry = \WordPress\AiClient\AiClient::defaultRegistry();
 
-		if ( ! $registry->hasProvider( 'openrouter' ) ) {
+		if ( ! $registry->hasProvider( 'ai-provider-for-openrouter-by-rtcamp' ) ) {
 			return false;
 		}
 
-		$auth = $registry->getProviderRequestAuthentication( 'openrouter' );
+		$auth = $registry->getProviderRequestAuthentication( 'ai-provider-for-openrouter-by-rtcamp' );
 		if ( null === $auth ) {
 			return false;
 		}
