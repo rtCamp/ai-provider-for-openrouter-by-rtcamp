@@ -40,8 +40,9 @@ This plugin connects to third-party services provided by OpenRouter, Inc. to ret
   * **What data is sent and when:** Prompts, context text/inputs, and the configured OpenRouter API key (sent in the HTTP Authorization header) are sent via HTTPS POST to OpenRouter (`https://openrouter.ai/api/v1/chat/completions`) only when a user explicitly initiates an AI generation action.
 
 This service is provided by OpenRouter, Inc.
-* OpenRouter Terms of Service: https://openrouter.ai/terms
-* OpenRouter Privacy Policy: https://openrouter.ai/privacy
+
+* OpenRouter Terms of Service: [https://openrouter.ai/terms](https://openrouter.ai/terms)
+* OpenRouter Privacy Policy: [https://openrouter.ai/privacy](https://openrouter.ai/terms)
 
 == Installation ==
 
