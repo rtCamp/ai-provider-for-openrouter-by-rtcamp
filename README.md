@@ -178,6 +178,34 @@ For advanced deployments, you can override defaults using PHP constants or envir
 - `OPENROUTER_BASE_URL` — Override the API base URL (default: `https://openrouter.ai/api/v1`)
 - `AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_API_KEY` — Inject an API key directly when the Connectors registry is not yet initialized
 
+### Developer Filters
+
+The plugin provides filter hooks allowing developers to inspect or modify request payloads before they are dispatched to OpenRouter:
+
+#### Text Generation Parameters Filter
+
+```php
+add_filter(
+    'ai_provider_for_openrouter_by_rtcamp_text_generation_params',
+    function( array $params ): array {
+        // Customize text generation parameters (e.g. temperature, max_tokens, etc.)
+        return $params;
+    }
+);
+```
+
+#### Image Generation Parameters Filter
+
+```php
+add_filter(
+    'ai_provider_for_openrouter_by_rtcamp_image_generation_params',
+    function( array $params ): array {
+        // Customize image generation parameters
+        return $params;
+    }
+);
+```
+
 ## Development & Contributing
 
 AI Provider for OpenRouter by rtCamp is actively developed and maintained by [rtCamp](https://rtcamp.com/).

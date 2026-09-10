@@ -28,6 +28,11 @@ AI Provider for OpenRouter by rtCamp registers OpenRouter as an AI provider for 
 * Image generation using OpenRouter's chat completions image modality.
 * Autocomplete model selection dynamically populated from OpenRouter's model catalog.
 
+**Developer Filters:**
+
+* `ai_provider_for_openrouter_by_rtcamp_text_generation_params`: Filter the request parameters before dispatching text generation requests to OpenRouter.
+* `ai_provider_for_openrouter_by_rtcamp_image_generation_params`: Filter the request parameters before dispatching image generation requests to OpenRouter.
+
 == External services ==
 
 This plugin connects to third-party services provided by OpenRouter, Inc. to retrieve available AI model listings and process AI generation requests.
@@ -42,7 +47,7 @@ This plugin connects to third-party services provided by OpenRouter, Inc. to ret
 This service is provided by OpenRouter, Inc.
 
 * OpenRouter Terms of Service: [https://openrouter.ai/terms](https://openrouter.ai/terms)
-* OpenRouter Privacy Policy: [https://openrouter.ai/privacy](https://openrouter.ai/terms)
+* OpenRouter Privacy Policy: [https://openrouter.ai/privacy](https://openrouter.ai/privacy)
 
 == Installation ==
 

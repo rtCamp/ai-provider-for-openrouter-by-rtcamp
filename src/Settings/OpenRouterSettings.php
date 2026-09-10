@@ -32,7 +32,9 @@ class OpenRouterSettings {
 	private const MODELS_TRANSIENT = 'ai_openrouter_models_v1';
 	private const MODELS_IMAGE_TRANSIENT = 'ai_openrouter_image_models_v1';
 	private const MODELS_CACHE_TTL = HOUR_IN_SECONDS;
+	// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- AI Provider plugin connects directly to OpenRouter API.
 	private const OPENROUTER_MODELS_URL = 'https://openrouter.ai/api/v1/models?output_modality=text';
+	// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- AI Provider plugin connects directly to OpenRouter API.
 	private const OPENROUTER_IMAGE_MODELS_URL = 'https://openrouter.ai/api/v1/models?output_modality=image';
 
 	/**
@@ -183,6 +185,7 @@ class OpenRouterSettings {
 							printf(
 								/* translators: 1: opening anchor tag, 2: closing anchor tag */
 								esc_html__( 'Compare pricing, speed, latency, and context windows dynamically at %1$sopenrouter.ai/models%2$s.', 'ai-provider-for-openrouter-by-rtcamp' ),
+								// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- Informational documentation link.
 								'<a href="https://openrouter.ai/models" target="_blank" rel="noopener noreferrer" class="openrouter-link">',
 								'</a>'
 							);

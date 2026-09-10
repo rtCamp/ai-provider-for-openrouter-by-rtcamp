@@ -52,6 +52,15 @@ class OpenRouterTextGenerationModel extends AbstractOpenAiCompatibleTextGenerati
 			$params['model'] = $selected_model;
 		}
 
+		/**
+		 * Filters the OpenRouter text generation request parameters.
+		 *
+		 * @since 1.0.0
+		 * @since 1.1.1 Renamed hook to include the full plugin prefix.
+		 *
+		 * @param array<string, mixed> $params Request parameters for OpenRouter chat completions.
+		 */
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook is prefixed with the full plugin slug.
 		return apply_filters( 'ai_provider_for_openrouter_by_rtcamp_text_generation_params', $params );
 	}
 

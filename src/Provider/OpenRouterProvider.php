@@ -36,6 +36,7 @@ class OpenRouterProvider extends AbstractApiProvider {
 	 *
 	 * @since 1.0.0
 	 */
+	// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- AI Provider connects directly to OpenRouter API.
 	private const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
 
 	/**
@@ -96,6 +97,7 @@ class OpenRouterProvider extends AbstractApiProvider {
 			'ai-provider-for-openrouter-by-rtcamp',
 			'OpenRouter',
 			ProviderTypeEnum::cloud(),
+			// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- Provider documentation reference URL.
 			'https://openrouter.ai/docs/api/reference/overview',
 			RequestAuthenticationMethod::apiKey(),
 			__( 'Text and image generation using various models.', 'ai-provider-for-openrouter-by-rtcamp' ),

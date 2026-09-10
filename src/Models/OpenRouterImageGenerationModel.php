@@ -156,7 +156,16 @@ class OpenRouterImageGenerationModel extends AbstractApiBasedModel implements Im
 			$params['model'] = $selected_model;
 		}
 
-		/** @var ImageGenerationParams $params */
+		/**
+		 * Filters the OpenRouter image generation request parameters.
+		 *
+		 * @since 1.0.0
+		 * @since 1.1.1 Renamed hook to include the full plugin prefix.
+		 *
+		 * @param array<string, mixed> $params Request parameters for OpenRouter image generation.
+		 * @phpstan-param ImageGenerationParams $params
+		 */
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook is prefixed with the full plugin slug.
 		return apply_filters( 'ai_provider_for_openrouter_by_rtcamp_image_generation_params', $params );
 	}
 
