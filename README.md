@@ -56,16 +56,18 @@ AI Provider for OpenRouter by rtCamp solves this by:
 - **Smart Exposure:** If both settings point to the same model, it is exposed once with combined capabilities
 - **Environment Overrides:** `OPENROUTER_BASE_URL` and `AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_API_KEY` constants for advanced deployments
 
-### API Integration
+### API Integration & External Services
 
-The plugin communicates with OpenRouter's OpenAI-compatible API at `https://openrouter.ai/api/v1`:
+The plugin communicates with OpenRouter's API provided by OpenRouter, Inc. at `https://openrouter.ai/api/v1`:
 
-| Endpoint | Purpose |
-|---|---|
-| `GET /models` | Populate text model autocomplete in settings |
-| `GET /models?output_modality=image` | Populate image model autocomplete in settings |
-| `POST /chat/completions` | Text generation requests |
-| `POST /chat/completions` + `modalities: ["image"]` | Image generation requests |
+| Endpoint | Purpose | When Data is Sent |
+|---|---|---|
+| `GET /models` | Populate text model autocomplete in settings | Admin views Settings or queries REST models endpoint |
+| `GET /models?output_modality=image` | Populate image model autocomplete in settings | Admin views Settings or queries REST image-models endpoint |
+| `POST /chat/completions` | Text generation requests | User explicitly initiates text generation via AI Client |
+| `POST /chat/completions` + `modalities: ["image"]` | Image generation requests | User explicitly initiates image generation via AI Client |
+
+For more information, please review the [OpenRouter Terms of Service](https://openrouter.ai/terms) and [OpenRouter Privacy Policy](https://openrouter.ai/privacy).
 
 ### Limitations
 
@@ -77,7 +79,7 @@ The plugin communicates with OpenRouter's OpenAI-compatible API at `https://open
 
 - **WordPress:** 7.0 or higher
 - **Requires at least:** 7.0
-- **Tested up to:** 7.0
+- **Tested up to:** 7.1
 - **Stable tag:** 1.1.1
 - **PHP:** 7.4 or higher
 - **Requires PHP:** 7.4
