@@ -186,7 +186,7 @@ The plugin provides filter hooks allowing developers to inspect or modify reques
 
 ```php
 add_filter(
-    'ai_provider_for_openrouter_by_rtcamp_text_generation_params',
+    'rtcamps_ai_provider_for_openrouter_text_generation_params',
     function( array $params ): array {
         // Customize text generation parameters (e.g. temperature, max_tokens, etc.)
         return $params;
@@ -198,7 +198,7 @@ add_filter(
 
 ```php
 add_filter(
-    'rtcamps-ai-provider-for-openrouter_image_generation_params',
+    'rtcamps_ai_provider_for_openrouter_image_generation_params',
     function( array $params ): array {
         // Customize image generation parameters
         return $params;
