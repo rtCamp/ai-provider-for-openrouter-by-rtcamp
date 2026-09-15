@@ -25,7 +25,7 @@ class OpenRouterProviderAvailability implements ProviderAvailabilityInterface {
 	 * {@inheritDoc}
 	 *
 	 * OpenRouter is considered configured when a non-empty API key has been
-	 * registered via Settings > Connectors or the AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_API_KEY env var.
+	 * registered via Settings > Connectors or the RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_API_KEY env var.
 	 * A fallback empty-key auth object registered at startup does not count.
 	 *
 	 * @since 1.0.0

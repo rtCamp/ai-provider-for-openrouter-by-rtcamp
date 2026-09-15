@@ -145,7 +145,7 @@ class OpenRouterSettings {
 			<!-- Header Card -->
 			<div class="openrouter-header-card">
 				<div class="openrouter-header-logo">
-					<img src="<?php echo esc_url( plugins_url( 'assets/images/openrouter-logo.svg', AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_FILE ) ); ?>" alt="<?php esc_attr_e( 'OpenRouter Logo', 'rtcamps-ai-provider-for-openrouter' ); ?>" width="32" height="32" />
+					<img src="<?php echo esc_url( plugins_url( 'assets/images/openrouter-logo.svg', RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_PLUGIN_FILE ) ); ?>" alt="<?php esc_attr_e( 'OpenRouter Logo', 'rtcamps-ai-provider-for-openrouter' ); ?>" width="32" height="32" />
 				</div>
 				<div class="openrouter-header-text">
 					<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
@@ -333,7 +333,7 @@ class OpenRouterSettings {
 			return;
 		}
 
-		$plugin_dir = AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_DIR;
+		$plugin_dir = RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_PLUGIN_DIR;
 		$asset_file = $plugin_dir . 'build/admin/settings.asset.php';
 		$asset      = file_exists( $asset_file ) ? require $asset_file : []; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable -- Asset file path is built from a known constant.
 
@@ -342,7 +342,7 @@ class OpenRouterSettings {
 
 		wp_enqueue_script(
 			'rtcamps-ai-provider-for-openrouter-settings',
-			plugins_url( 'build/admin/settings.js', AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_FILE ),
+			plugins_url( 'build/admin/settings.js', RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_PLUGIN_FILE ),
 			$dependencies,
 			$version,
 			true
@@ -350,7 +350,7 @@ class OpenRouterSettings {
 
 		wp_enqueue_style(
 			'rtcamps-ai-provider-for-openrouter-settings',
-			plugins_url( 'build/admin/style-settings.css', AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_FILE ),
+			plugins_url( 'build/admin/style-settings.css', RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_PLUGIN_FILE ),
 			[],
 			$version
 		);

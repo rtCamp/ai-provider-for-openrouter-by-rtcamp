@@ -54,7 +54,7 @@ rtCamp’s AI Provider for OpenRouter solves this by:
 - **Model Discovery:** Settings autocomplete backed by live model discovery.
 - **Dual Model Config:** Separate default model settings for text and image generation
 - **Smart Exposure:** If both settings point to the same model, it is exposed once with combined capabilities
-- **Environment Overrides:** `OPENROUTER_BASE_URL` and `AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_API_KEY` constants for advanced deployments
+- **Environment Overrides:** `OPENROUTER_BASE_URL` and `RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_API_KEY` constants for advanced deployments
 
 ### API Integration & External Services
 
@@ -176,7 +176,7 @@ Use OpenRouter for any AI Client feature that supports image generation, such as
 For advanced deployments, you can override defaults using PHP constants or environment variables:
 
 - `OPENROUTER_BASE_URL` — Override the API base URL (default: `https://openrouter.ai/api/v1`)
-- `AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_API_KEY` — Inject an API key directly when the Connectors registry is not yet initialized
+- `RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_API_KEY` — Inject an API key directly when the Connectors registry is not yet initialized
 
 ### Developer Filters
 

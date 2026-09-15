@@ -101,7 +101,7 @@ class OpenRouterProvider extends AbstractApiProvider {
 			'https://openrouter.ai/docs/api/reference/overview',
 			RequestAuthenticationMethod::apiKey(),
 			__( 'Text and image generation using various models.', 'rtcamps-ai-provider-for-openrouter' ),
-			AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_DIR . 'assets/images/openrouter-logo.svg'
+			RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_PLUGIN_DIR . 'assets/images/openrouter-logo.svg'
 		);
 	}
 
