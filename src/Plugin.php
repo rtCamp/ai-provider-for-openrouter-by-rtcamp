@@ -8,14 +8,14 @@
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp;
+namespace rtCamp\AIProviderForOpenRouter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use rtCamp\AIProviderForOpenRouterByrtCamp\Provider\OpenRouterProvider;
-use rtCamp\AIProviderForOpenRouterByrtCamp\Settings\OpenRouterSettings;
+use rtCamp\AIProviderForOpenRouter\Provider\OpenRouterProvider;
+use rtCamp\AIProviderForOpenRouter\Settings\OpenRouterSettings;
 use WordPress\AiClient\AiClient;
 use WordPress\AiClient\Providers\Http\DTO\ApiKeyRequestAuthentication;
 

@@ -9,7 +9,7 @@
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp\Provider;
+namespace rtCamp\AIProviderForOpenRouter\Provider;
 
 use WordPress\AiClient\Providers\Contracts\ProviderAvailabilityInterface;
 use WordPress\AiClient\Providers\Http\DTO\ApiKeyRequestAuthentication;

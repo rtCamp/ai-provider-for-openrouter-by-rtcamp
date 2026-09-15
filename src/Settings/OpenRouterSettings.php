@@ -9,7 +9,7 @@
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp\Settings;
+namespace rtCamp\AIProviderForOpenRouter\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

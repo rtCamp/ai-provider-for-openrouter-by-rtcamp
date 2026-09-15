@@ -9,11 +9,11 @@
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp\Provider;
+namespace rtCamp\AIProviderForOpenRouter\Provider;
 
-use rtCamp\AIProviderForOpenRouterByrtCamp\Metadata\OpenRouterModelMetadataDirectory;
-use rtCamp\AIProviderForOpenRouterByrtCamp\Models\OpenRouterImageGenerationModel;
-use rtCamp\AIProviderForOpenRouterByrtCamp\Models\OpenRouterTextGenerationModel;
+use rtCamp\AIProviderForOpenRouter\Metadata\OpenRouterModelMetadataDirectory;
+use rtCamp\AIProviderForOpenRouter\Models\OpenRouterImageGenerationModel;
+use rtCamp\AIProviderForOpenRouter\Models\OpenRouterTextGenerationModel;
 use WordPress\AiClient\Common\Exception\RuntimeException;
 use WordPress\AiClient\Providers\ApiBasedImplementation\AbstractApiProvider;
 use WordPress\AiClient\Providers\Contracts\ModelMetadataDirectoryInterface;

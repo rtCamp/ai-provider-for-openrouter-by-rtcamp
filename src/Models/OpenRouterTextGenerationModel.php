@@ -9,10 +9,10 @@
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp\Models;
+namespace rtCamp\AIProviderForOpenRouter\Models;
 
-use rtCamp\AIProviderForOpenRouterByrtCamp\Provider\OpenRouterProvider;
-use rtCamp\AIProviderForOpenRouterByrtCamp\Settings\OpenRouterSettings;
+use rtCamp\AIProviderForOpenRouter\Provider\OpenRouterProvider;
+use rtCamp\AIProviderForOpenRouter\Settings\OpenRouterSettings;
 use WordPress\AiClient\Providers\Http\DTO\Request;
 use WordPress\AiClient\Providers\Http\DTO\Response;
 use WordPress\AiClient\Providers\Http\Enums\HttpMethodEnum;

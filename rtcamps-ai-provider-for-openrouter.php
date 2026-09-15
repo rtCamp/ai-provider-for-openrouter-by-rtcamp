@@ -13,12 +13,12 @@
  * Text Domain:       rtcamps-ai-provider-for-openrouter
  * Domain Path:       /languages
  *
- * @package rtCamp\AIProviderForOpenRouterByrtCamp
+ * @package rtCamp\AIProviderForOpenRouter
  */
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp;
+namespace rtCamp\AIProviderForOpenRouter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

@@ -9,9 +9,9 @@
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp\Metadata;
+namespace rtCamp\AIProviderForOpenRouter\Metadata;
 
-use rtCamp\AIProviderForOpenRouterByrtCamp\Settings\OpenRouterSettings;
+use rtCamp\AIProviderForOpenRouter\Settings\OpenRouterSettings;
 use WordPress\AiClient\Files\Enums\FileTypeEnum;
 use WordPress\AiClient\Messages\Enums\ModalityEnum;
 use WordPress\AiClient\Providers\ApiBasedImplementation\AbstractApiBasedModelMetadataDirectory;

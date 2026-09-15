@@ -9,10 +9,10 @@
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp\Models;
+namespace rtCamp\AIProviderForOpenRouter\Models;
 
-use rtCamp\AIProviderForOpenRouterByrtCamp\Provider\OpenRouterProvider;
-use rtCamp\AIProviderForOpenRouterByrtCamp\Settings\OpenRouterSettings;
+use rtCamp\AIProviderForOpenRouter\Provider\OpenRouterProvider;
+use rtCamp\AIProviderForOpenRouter\Settings\OpenRouterSettings;
 use WordPress\AiClient\Common\Exception\InvalidArgumentException;
 use WordPress\AiClient\Files\DTO\File;
 use WordPress\AiClient\Files\Enums\MediaOrientationEnum;
