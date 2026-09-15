@@ -4,7 +4,7 @@
  *
  * @since 1.0.0
  *
- * @package rtCamp\AIProviderForOpenRouterByrtCamp
+ * @package rtCamp\AIProviderForOpenRouter
  */
 
 declare( strict_types=1 );
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 spl_autoload_register(
 	static function ( string $class_name ): void {
-		$prefix   = 'rtCamp\\AIProviderForOpenRouterByrtCamp\\';
+		$prefix   = 'rtCamp\\AIProviderForOpenRouter\\';
 		$base_dir = __DIR__ . '/';
 
 		$len = strlen( $prefix );

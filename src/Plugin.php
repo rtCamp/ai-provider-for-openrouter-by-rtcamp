@@ -3,19 +3,19 @@
  * The main plugin class.
  *
  * @since 1.0.0
- * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
+ * @package rtcamp/rtcamps-ai-provider-for-openrouter
  */
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp;
+namespace rtCamp\AIProviderForOpenRouter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use rtCamp\AIProviderForOpenRouterByrtCamp\Provider\OpenRouterProvider;
-use rtCamp\AIProviderForOpenRouterByrtCamp\Settings\OpenRouterSettings;
+use rtCamp\AIProviderForOpenRouter\Provider\OpenRouterProvider;
+use rtCamp\AIProviderForOpenRouter\Settings\OpenRouterSettings;
 use WordPress\AiClient\AiClient;
 use WordPress\AiClient\Providers\Http\DTO\ApiKeyRequestAuthentication;
 
@@ -36,7 +36,7 @@ class Plugin {
 		add_action( 'init', [ $this, 'register_fallback_auth' ], 15 );
 		add_action( 'init', [ $this, 'initialize_settings' ] );
 		add_filter( 'ai_experiments_preferred_image_models', [ $this, 'prepend_openrouter_image_model' ], 5 );
-		add_filter( 'plugin_action_links_' . plugin_basename( AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_FILE ), [ $this, 'plugin_action_links' ] );
+		add_filter( 'plugin_action_links_' . plugin_basename( RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_PLUGIN_FILE ), [ $this, 'plugin_action_links' ] );
 	}
 
 	/**
@@ -76,18 +76,18 @@ class Plugin {
 
 		$registry = AiClient::defaultRegistry();
 
-		if ( ! $registry->hasProvider( 'ai-provider-for-openrouter-by-rtcamp' ) ) {
+		if ( ! $registry->hasProvider( 'rtcamps-ai-provider-for-openrouter' ) ) {
 			return;
 		}
 
-		$auth = $registry->getProviderRequestAuthentication( 'ai-provider-for-openrouter-by-rtcamp' );
+		$auth = $registry->getProviderRequestAuthentication( 'rtcamps-ai-provider-for-openrouter' );
 		if ( null !== $auth ) {
 			return;
 		}
 
-		$env_key = (string) getenv( 'AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_API_KEY' );
+		$env_key = (string) getenv( 'RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_API_KEY' );
 		$registry->setProviderRequestAuthentication(
-			'ai-provider-for-openrouter-by-rtcamp',
+			'rtcamps-ai-provider-for-openrouter',
 			new ApiKeyRequestAuthentication( $env_key )
 		);
 	}
@@ -113,7 +113,7 @@ class Plugin {
 	public function prepend_openrouter_image_model( array $models ): array {
 		$selected = OpenRouterSettings::get_selected_image_model();
 		if ( '' !== $selected ) {
-			array_unshift( $models, [ 'ai-provider-for-openrouter-by-rtcamp', $selected ] );
+			array_unshift( $models, [ 'rtcamps-ai-provider-for-openrouter', $selected ] );
 		}
 		return $models;
 	}
@@ -129,8 +129,8 @@ class Plugin {
 	public function plugin_action_links( array $links ): array {
 		$settings_link = sprintf(
 			'<a href="%1$s">%2$s</a>',
-			admin_url( 'options-general.php?page=ai-provider-for-openrouter-by-rtcamp' ),
-			esc_html__( 'Settings', 'ai-provider-for-openrouter-by-rtcamp' )
+			admin_url( 'options-general.php?page=rtcamps-ai-provider-for-openrouter' ),
+			esc_html__( 'Settings', 'rtcamps-ai-provider-for-openrouter' )
 		);
 
 		array_unshift( $links, $settings_link );

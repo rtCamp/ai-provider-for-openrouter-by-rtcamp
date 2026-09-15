@@ -2,17 +2,17 @@
 /**
  * OpenRouter Text Generation Model.
  *
- * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
+ * @package rtcamp/rtcamps-ai-provider-for-openrouter
  *
  * @since 1.0.0
  */
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp\Models;
+namespace rtCamp\AIProviderForOpenRouter\Models;
 
-use rtCamp\AIProviderForOpenRouterByrtCamp\Provider\OpenRouterProvider;
-use rtCamp\AIProviderForOpenRouterByrtCamp\Settings\OpenRouterSettings;
+use rtCamp\AIProviderForOpenRouter\Provider\OpenRouterProvider;
+use rtCamp\AIProviderForOpenRouter\Settings\OpenRouterSettings;
 use WordPress\AiClient\Providers\Http\DTO\Request;
 use WordPress\AiClient\Providers\Http\DTO\Response;
 use WordPress\AiClient\Providers\Http\Enums\HttpMethodEnum;
@@ -61,7 +61,7 @@ class OpenRouterTextGenerationModel extends AbstractOpenAiCompatibleTextGenerati
 		 * @param array<string, mixed> $params Request parameters for OpenRouter chat completions.
 		 */
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook is prefixed with the full plugin slug.
-		return apply_filters( 'ai_provider_for_openrouter_by_rtcamp_text_generation_params', $params );
+		return apply_filters( 'rtcamps_ai_provider_for_openrouter_text_generation_params', $params );
 	}
 
 	/**

@@ -2,14 +2,14 @@
 /**
  * OpenRouter Provider Availability.
  *
- * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
+ * @package rtcamp/rtcamps-ai-provider-for-openrouter
  *
  * @since 1.0.0
  */
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp\Provider;
+namespace rtCamp\AIProviderForOpenRouter\Provider;
 
 use WordPress\AiClient\Providers\Contracts\ProviderAvailabilityInterface;
 use WordPress\AiClient\Providers\Http\DTO\ApiKeyRequestAuthentication;
@@ -25,7 +25,7 @@ class OpenRouterProviderAvailability implements ProviderAvailabilityInterface {
 	 * {@inheritDoc}
 	 *
 	 * OpenRouter is considered configured when a non-empty API key has been
-	 * registered via Settings > Connectors or the AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_API_KEY env var.
+	 * registered via Settings > Connectors or the RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_API_KEY env var.
 	 * A fallback empty-key auth object registered at startup does not count.
 	 *
 	 * @since 1.0.0
@@ -37,11 +37,11 @@ class OpenRouterProviderAvailability implements ProviderAvailabilityInterface {
 
 		$registry = \WordPress\AiClient\AiClient::defaultRegistry();
 
-		if ( ! $registry->hasProvider( 'ai-provider-for-openrouter-by-rtcamp' ) ) {
+		if ( ! $registry->hasProvider( 'rtcamps-ai-provider-for-openrouter' ) ) {
 			return false;
 		}
 
-		$auth = $registry->getProviderRequestAuthentication( 'ai-provider-for-openrouter-by-rtcamp' );
+		$auth = $registry->getProviderRequestAuthentication( 'rtcamps-ai-provider-for-openrouter' );
 		if ( null === $auth ) {
 			return false;
 		}

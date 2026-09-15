@@ -4,10 +4,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/PHPCSStandards/PHP_CodeSniffer/master/phpcs.xsd"
 >
-	<description>Sniffs for AI Provider for OpenRouter by rtCamp plugin</description>
+	<description>Sniffs for rtCamp’s AI Provider for OpenRouter plugin</description>
 
 	<file>./src/</file>
-	<file>./ai-provider-for-openrouter-by-rtcamp.php</file>
+	<file>./rtcamps-ai-provider-for-openrouter.php</file>
 
 	<exclude-pattern>**/build/**</exclude-pattern>
 	<exclude-pattern>**/node_modules/**</exclude-pattern>

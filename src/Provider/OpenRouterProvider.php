@@ -2,18 +2,18 @@
 /**
  * OpenRouter Provider.
  *
- * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
+ * @package rtcamp/rtcamps-ai-provider-for-openrouter
  *
  * @since 1.0.0
  */
 
 declare( strict_types=1 );
 
-namespace rtCamp\AIProviderForOpenRouterByrtCamp\Provider;
+namespace rtCamp\AIProviderForOpenRouter\Provider;
 
-use rtCamp\AIProviderForOpenRouterByrtCamp\Metadata\OpenRouterModelMetadataDirectory;
-use rtCamp\AIProviderForOpenRouterByrtCamp\Models\OpenRouterImageGenerationModel;
-use rtCamp\AIProviderForOpenRouterByrtCamp\Models\OpenRouterTextGenerationModel;
+use rtCamp\AIProviderForOpenRouter\Metadata\OpenRouterModelMetadataDirectory;
+use rtCamp\AIProviderForOpenRouter\Models\OpenRouterImageGenerationModel;
+use rtCamp\AIProviderForOpenRouter\Models\OpenRouterTextGenerationModel;
 use WordPress\AiClient\Common\Exception\RuntimeException;
 use WordPress\AiClient\Providers\ApiBasedImplementation\AbstractApiProvider;
 use WordPress\AiClient\Providers\Contracts\ModelMetadataDirectoryInterface;
@@ -94,14 +94,14 @@ class OpenRouterProvider extends AbstractApiProvider {
 	 */
 	protected static function createProviderMetadata(): ProviderMetadata {
 		return new ProviderMetadata(
-			'ai-provider-for-openrouter-by-rtcamp',
+			'rtcamps-ai-provider-for-openrouter',
 			'OpenRouter',
 			ProviderTypeEnum::cloud(),
 			// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- Provider documentation reference URL.
 			'https://openrouter.ai/docs/api/reference/overview',
 			RequestAuthenticationMethod::apiKey(),
-			__( 'Text and image generation using various models.', 'ai-provider-for-openrouter-by-rtcamp' ),
-			AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_DIR . 'assets/images/openrouter-logo.svg'
+			__( 'Text and image generation using various models.', 'rtcamps-ai-provider-for-openrouter' ),
+			RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_PLUGIN_DIR . 'assets/images/openrouter-logo.svg'
 		);
 	}
 
