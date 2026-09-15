@@ -2,7 +2,7 @@
 /**
  * OpenRouter Image Generation Model.
  *
- * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
+ * @package rtcamp/rtcamps-ai-provider-for-openrouter
  *
  * @since 1.0.0
  */
@@ -156,6 +156,8 @@ class OpenRouterImageGenerationModel extends AbstractApiBasedModel implements Im
 			$params['model'] = $selected_model;
 		}
 
+		/** @var ImageGenerationParams $params */
+
 		/**
 		 * Filters the OpenRouter image generation request parameters.
 		 *
@@ -166,7 +168,7 @@ class OpenRouterImageGenerationModel extends AbstractApiBasedModel implements Im
 		 * @phpstan-param ImageGenerationParams $params
 		 */
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook is prefixed with the full plugin slug.
-		return apply_filters( 'ai_provider_for_openrouter_by_rtcamp_image_generation_params', $params );
+		return apply_filters( 'rtcamps_ai_provider_for_openrouter_image_generation_params', $params );
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * OpenRouter Provider.
  *
- * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
+ * @package rtcamp/rtcamps-ai-provider-for-openrouter
  *
  * @since 1.0.0
  */
@@ -94,13 +94,13 @@ class OpenRouterProvider extends AbstractApiProvider {
 	 */
 	protected static function createProviderMetadata(): ProviderMetadata {
 		return new ProviderMetadata(
-			'ai-provider-for-openrouter-by-rtcamp',
+			'rtcamps-ai-provider-for-openrouter',
 			'OpenRouter',
 			ProviderTypeEnum::cloud(),
 			// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- Provider documentation reference URL.
 			'https://openrouter.ai/docs/api/reference/overview',
 			RequestAuthenticationMethod::apiKey(),
-			__( 'Text and image generation using various models.', 'ai-provider-for-openrouter-by-rtcamp' ),
+			__( 'Text and image generation using various models.', 'rtcamps-ai-provider-for-openrouter' ),
 			AI_PROVIDER_FOR_OPENROUTER_BY_RTCAMP_PLUGIN_DIR . 'assets/images/openrouter-logo.svg'
 		);
 	}

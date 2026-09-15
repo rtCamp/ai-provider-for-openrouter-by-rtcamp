@@ -2,7 +2,7 @@
 /**
  * OpenRouter Model Metadata Directory.
  *
- * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
+ * @package rtcamp/rtcamps-ai-provider-for-openrouter
  *
  * @since 1.0.0
  */

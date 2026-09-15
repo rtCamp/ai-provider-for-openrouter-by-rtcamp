@@ -76,18 +76,18 @@ interface OpenRouterModel {
 	 */
 	function formatPrice(priceStr: string | undefined, key?: string): string {
 		if (!priceStr) {
-			return i18n.na || __('N/A', 'ai-provider-for-openrouter-by-rtcamp');
+			return i18n.na || __('N/A', 'rtcamps-ai-provider-for-openrouter');
 		}
 		const price = parseFloat(priceStr);
 		if (isNaN(price)) {
-			return i18n.na || __('N/A', 'ai-provider-for-openrouter-by-rtcamp');
+			return i18n.na || __('N/A', 'rtcamps-ai-provider-for-openrouter');
 		}
 		if (price < 0) {
-			return __('Unavailable', 'ai-provider-for-openrouter-by-rtcamp');
+			return __('Unavailable', 'rtcamps-ai-provider-for-openrouter');
 		}
 		if (price === 0) {
 			return (
-				i18n.free || __('Free', 'ai-provider-for-openrouter-by-rtcamp')
+				i18n.free || __('Free', 'rtcamps-ai-provider-for-openrouter')
 			);
 		}
 
@@ -95,9 +95,8 @@ interface OpenRouterModel {
 		if (key === 'image' || key === 'web_search') {
 			const unit =
 				key === 'image'
-					? ' ' +
-						__('/ image', 'ai-provider-for-openrouter-by-rtcamp')
-					: ' ' + __('/ req', 'ai-provider-for-openrouter-by-rtcamp');
+					? ' ' + __('/ image', 'rtcamps-ai-provider-for-openrouter')
+					: ' ' + __('/ req', 'rtcamps-ai-provider-for-openrouter');
 			let formatted = '';
 			const exponent = Math.floor(Math.log(price) / Math.LN10);
 			if (exponent < 0) {
@@ -127,8 +126,7 @@ interface OpenRouterModel {
 				: '$' + perMillion.toPrecision(3);
 		return (
 			formatted +
-			(i18n.perMillion ||
-				__('/1M', 'ai-provider-for-openrouter-by-rtcamp'))
+			(i18n.perMillion || __('/1M', 'rtcamps-ai-provider-for-openrouter'))
 		);
 	}
 
@@ -305,7 +303,7 @@ interface OpenRouterModel {
 					? formatContext(model.context_length) +
 						' ' +
 						(i18n.ctx ||
-							__('ctx', 'ai-provider-for-openrouter-by-rtcamp'))
+							__('ctx', 'rtcamps-ai-provider-for-openrouter'))
 					: '';
 			const nameDisplay =
 				model.name && model.name !== modelId ? model.name : '';
@@ -334,7 +332,7 @@ interface OpenRouterModel {
 				'<span class="openrouter-dropdown-item-meta">' +
 				escapeHtml(
 					i18n.inPrice ||
-						__('Prompt:', 'ai-provider-for-openrouter-by-rtcamp')
+						__('Prompt:', 'rtcamps-ai-provider-for-openrouter')
 				) +
 				' <strong class="openrouter-dropdown-item-price-val">' +
 				escapeHtml(inputPrice) +
@@ -342,10 +340,7 @@ interface OpenRouterModel {
 				'&nbsp;&nbsp;' +
 				escapeHtml(
 					i18n.outPrice ||
-						__(
-							'Completion:',
-							'ai-provider-for-openrouter-by-rtcamp'
-						)
+						__('Completion:', 'rtcamps-ai-provider-for-openrouter')
 				) +
 				' <strong class="openrouter-dropdown-item-price-val">' +
 				escapeHtml(outputPrice) +
@@ -397,13 +392,13 @@ interface OpenRouterModel {
 		if (key === 'prompt') {
 			return (
 				i18n.inPrice ||
-				__('Prompt:', 'ai-provider-for-openrouter-by-rtcamp')
+				__('Prompt:', 'rtcamps-ai-provider-for-openrouter')
 			).replace(/:$/, '');
 		}
 		if (key === 'completion') {
 			return (
 				i18n.outPrice ||
-				__('Completion:', 'ai-provider-for-openrouter-by-rtcamp')
+				__('Completion:', 'rtcamps-ai-provider-for-openrouter')
 			).replace(/:$/, '');
 		}
 		return key
@@ -435,7 +430,7 @@ interface OpenRouterModel {
 				? formatContext(model.context_length) +
 					' ' +
 					(i18n.ctx ||
-						__('ctx', 'ai-provider-for-openrouter-by-rtcamp'))
+						__('ctx', 'rtcamps-ai-provider-for-openrouter'))
 				: '';
 
 		let pricingHtml = '';
@@ -490,7 +485,7 @@ interface OpenRouterModel {
 					escapeHtml(
 						__(
 							'View on OpenRouter',
-							'ai-provider-for-openrouter-by-rtcamp'
+							'rtcamps-ai-provider-for-openrouter'
 						)
 					) +
 					'</a>';
@@ -636,11 +631,11 @@ interface OpenRouterModel {
 	): void {
 		statusEl.textContent =
 			i18n.loading ||
-			__('Loading models…', 'ai-provider-for-openrouter-by-rtcamp');
+			__('Loading models…', 'rtcamps-ai-provider-for-openrouter');
 		statusEl.className = 'openrouter-status openrouter-status-loading';
 
 		apiFetch<OpenRouterModel[]>({
-			path: '/ai-provider-for-openrouter-by-rtcamp/v1/models',
+			path: '/rtcamps-ai-provider-for-openrouter/v1/models',
 		})
 			.then(function (data) {
 				allModels = data;
@@ -652,7 +647,7 @@ interface OpenRouterModel {
 					(i18n.modelsCount ||
 						__(
 							'models available.',
-							'ai-provider-for-openrouter-by-rtcamp'
+							'rtcamps-ai-provider-for-openrouter'
 						));
 				statusEl.className =
 					'openrouter-status openrouter-status-ready';
@@ -673,7 +668,7 @@ interface OpenRouterModel {
 					i18n.errorLoad ||
 					__(
 						'Could not load models.',
-						'ai-provider-for-openrouter-by-rtcamp'
+						'rtcamps-ai-provider-for-openrouter'
 					);
 				statusEl.className = 'openrouter-status';
 				statusEl.style.color = '#d63638';
@@ -694,11 +689,11 @@ interface OpenRouterModel {
 	): void {
 		imageStatusEl.textContent =
 			i18n.loading ||
-			__('Loading models…', 'ai-provider-for-openrouter-by-rtcamp');
+			__('Loading models…', 'rtcamps-ai-provider-for-openrouter');
 		imageStatusEl.className = 'openrouter-status openrouter-status-loading';
 
 		apiFetch<OpenRouterModel[]>({
-			path: '/ai-provider-for-openrouter-by-rtcamp/v1/image-models',
+			path: '/rtcamps-ai-provider-for-openrouter/v1/image-models',
 		})
 			.then(function (data) {
 				allImageModels = data;
@@ -709,7 +704,7 @@ interface OpenRouterModel {
 					' ' +
 					__(
 						'image models available.',
-						'ai-provider-for-openrouter-by-rtcamp'
+						'rtcamps-ai-provider-for-openrouter'
 					);
 				imageStatusEl.className =
 					'openrouter-status openrouter-status-ready';
@@ -731,7 +726,7 @@ interface OpenRouterModel {
 					i18n.errorLoad ||
 					__(
 						'Could not load models.',
-						'ai-provider-for-openrouter-by-rtcamp'
+						'rtcamps-ai-provider-for-openrouter'
 					);
 				imageStatusEl.className = 'openrouter-status';
 				imageStatusEl.style.color = '#d63638';
@@ -852,10 +847,7 @@ interface OpenRouterModel {
 			if (!isImageLoaded) {
 				imageStatusEl.textContent =
 					i18n.loading ||
-					__(
-						'Loading models…',
-						'ai-provider-for-openrouter-by-rtcamp'
-					);
+					__('Loading models…', 'rtcamps-ai-provider-for-openrouter');
 				return;
 			}
 
@@ -864,7 +856,7 @@ interface OpenRouterModel {
 				' ' +
 				__(
 					'image models available.',
-					'ai-provider-for-openrouter-by-rtcamp'
+					'rtcamps-ai-provider-for-openrouter'
 				);
 			filterImageModels(
 				this.value.trim().toLowerCase(),

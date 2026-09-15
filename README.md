@@ -1,4 +1,4 @@
-# AI Provider for OpenRouter by rtCamp - Access Hundreds of AI Models in WordPress
+# rtCamp’s AI Provider for OpenRouter - Access Hundreds of AI Models in WordPress
 
 **Contributors:** [rtCamp](https://profiles.wordpress.org/rtcamp/), [milindmore22](https://profiles.wordpress.org/milindmore22), [vishal4669](https://profiles.wordpress.org/vishal4669/), [aishwarryapande](https://profiles.wordpress.org/aishwarryapande/), [aviralmittal89](https://profiles.wordpress.org/aviralmittal89/)
 
@@ -8,11 +8,11 @@ This plugin is licensed under the GPL v2 or later.
 
 ## Overview
 
-AI Provider for OpenRouter by rtCamp is a WordPress plugin that registers OpenRouter as an AI provider for the WordPress AI Client. It gives you access to hundreds of AI models for text and image generation through a single, unified API — configurable directly from your WordPress admin.
+rtCamp’s AI Provider for OpenRouter is a WordPress plugin that registers OpenRouter as an AI provider for the WordPress AI Client. It gives you access to hundreds of AI models for text and image generation through a single, unified API — configurable directly from your WordPress admin.
 
 ## Description
 
-**AI Provider for OpenRouter by rtCamp** bridges the WordPress AI Client with OpenRouter's model marketplace, allowing you to:
+**rtCamp’s AI Provider for OpenRouter** bridges the WordPress AI Client with OpenRouter's model marketplace, allowing you to:
 
 * **Access hundreds of AI models** including GPT-4, Claude, Gemini, and more through a single API key
 * **Generate text** using any OpenRouter-supported language model
@@ -22,7 +22,7 @@ AI Provider for OpenRouter by rtCamp is a WordPress plugin that registers OpenRo
 
 This makes it easy to experiment with and deploy different AI models on your WordPress site without being locked into a single provider.
 
-## Why AI Provider for OpenRouter by rtCamp?
+## Why rtCamp’s AI Provider for OpenRouter?
 
 Managing multiple AI providers in WordPress typically requires separate plugins, multiple API keys, and custom integrations for each model. This leads to:
 
@@ -31,7 +31,7 @@ Managing multiple AI providers in WordPress typically requires separate plugins,
 - **Duplicate configuration** scattered across multiple plugins
 - **Maintenance burden** as each provider's API evolves independently
 
-AI Provider for OpenRouter by rtCamp solves this by:
+rtCamp’s AI Provider for OpenRouter solves this by:
 
 - **Unified Access:** One API key, hundreds of models from leading AI providers
 - **Standardized Interface:** All models exposed through the WordPress AI Client's consistent API
@@ -90,24 +90,24 @@ For more information, please review the [OpenRouter Terms of Service](https://op
 ### As a WordPress Plugin
 
 1. Ensure the **WordPress AI** plugin (`ai`) is installed and activated.
-2. Download or clone this plugin into `wp-content/plugins/ai-provider-for-openrouter-by-rtcamp`.
-3. Activate **AI Provider for OpenRouter by rtCamp** from the Plugins screen.
+2. Download or clone this plugin into `wp-content/plugins/rtcamps-ai-provider-for-openrouter`.
+3. Activate **rtCamp’s AI Provider for OpenRouter** from the Plugins screen.
 4. Add your OpenRouter API key in **Settings > Connectors**.
 5. Configure your default models in **Settings > OpenRouter Settings**.
 
 ### As a Composer Package
 
 ```bash
-composer require rtcamp/ai-provider-for-openrouter-by-rtcamp
+composer require rtcamp/rtcamps-ai-provider-for-openrouter
 ```
 
 ## Usage Guide
 
 ### Accessing the Settings
 
-Navigate to **Settings > OpenRouter Settings** in your WordPress admin to configure AI Provider for OpenRouter by rtCamp.
+Navigate to **Settings > OpenRouter Settings** in your WordPress admin to configure rtCamp’s AI Provider for OpenRouter.
 
-### Configuring AI Provider for OpenRouter by rtCamp
+### Configuring rtCamp’s AI Provider for OpenRouter
 
 #### Setting Up Your API Key
 
@@ -198,7 +198,7 @@ add_filter(
 
 ```php
 add_filter(
-    'ai_provider_for_openrouter_by_rtcamp_image_generation_params',
+    'rtcamps-ai-provider-for-openrouter_image_generation_params',
     function( array $params ): array {
         // Customize image generation parameters
         return $params;
@@ -208,9 +208,9 @@ add_filter(
 
 ## Development & Contributing
 
-AI Provider for OpenRouter by rtCamp is actively developed and maintained by [rtCamp](https://rtcamp.com/).
+rtCamp’s AI Provider for OpenRouter is actively developed and maintained by [rtCamp](https://rtcamp.com/).
 
-- **Repository:** [https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp](https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp)
+- **Repository:** [https://github.com/rtcamp/rtcamps-ai-provider-for-openrouter](https://github.com/rtcamp/rtcamps-ai-provider-for-openrouter)
 
 We welcome contributions! Please open an issue or pull request on GitHub.
 
@@ -241,7 +241,7 @@ npm run lint
 npm run plugin-zip
 ```
 
-This creates `ai-provider-for-openrouter-by-rtcamp.zip` in the plugin root, excluding all development-only files.
+This creates `rtcamps-ai-provider-for-openrouter.zip` in the plugin root, excluding all development-only files.
 
 ## Frequently Asked Questions
 
@@ -314,8 +314,8 @@ The plugin can be network-activated on multisite. Each site's settings are manag
 
 ## Support & Community
 
-- **Issues & Bug Reports:** [GitHub Issues](https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp/issues)
-- **Source Code:** [GitHub Repository](https://github.com/rtcamp/ai-provider-for-openrouter-by-rtcamp)
+- **Issues & Bug Reports:** [GitHub Issues](https://github.com/rtcamp/rtcamps-ai-provider-for-openrouter/issues)
+- **Source Code:** [GitHub Repository](https://github.com/rtcamp/rtcamps-ai-provider-for-openrouter)
 
 ## License
 

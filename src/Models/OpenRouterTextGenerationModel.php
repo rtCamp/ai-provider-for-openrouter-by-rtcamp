@@ -2,7 +2,7 @@
 /**
  * OpenRouter Text Generation Model.
  *
- * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
+ * @package rtcamp/rtcamps-ai-provider-for-openrouter
  *
  * @since 1.0.0
  */
@@ -61,7 +61,7 @@ class OpenRouterTextGenerationModel extends AbstractOpenAiCompatibleTextGenerati
 		 * @param array<string, mixed> $params Request parameters for OpenRouter chat completions.
 		 */
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook is prefixed with the full plugin slug.
-		return apply_filters( 'ai_provider_for_openrouter_by_rtcamp_text_generation_params', $params );
+		return apply_filters( 'rtcamps_ai_provider_for_openrouter_text_generation_params', $params );
 	}
 
 	/**

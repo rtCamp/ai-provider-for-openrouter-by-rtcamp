@@ -2,7 +2,7 @@
 /**
  * OpenRouter Provider Availability.
  *
- * @package rtcamp/ai-provider-for-openrouter-by-rtcamp
+ * @package rtcamp/rtcamps-ai-provider-for-openrouter
  *
  * @since 1.0.0
  */
@@ -37,11 +37,11 @@ class OpenRouterProviderAvailability implements ProviderAvailabilityInterface {
 
 		$registry = \WordPress\AiClient\AiClient::defaultRegistry();
 
-		if ( ! $registry->hasProvider( 'ai-provider-for-openrouter-by-rtcamp' ) ) {
+		if ( ! $registry->hasProvider( 'rtcamps-ai-provider-for-openrouter' ) ) {
 			return false;
 		}
 
-		$auth = $registry->getProviderRequestAuthentication( 'ai-provider-for-openrouter-by-rtcamp' );
+		$auth = $registry->getProviderRequestAuthentication( 'rtcamps-ai-provider-for-openrouter' );
 		if ( null === $auth ) {
 			return false;
 		}
