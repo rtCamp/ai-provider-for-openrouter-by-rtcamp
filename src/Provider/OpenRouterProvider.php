@@ -14,6 +14,7 @@ namespace rtCamp\AIProviderForOpenRouter\Provider;
 use rtCamp\AIProviderForOpenRouter\Metadata\OpenRouterModelMetadataDirectory;
 use rtCamp\AIProviderForOpenRouter\Models\OpenRouterImageGenerationModel;
 use rtCamp\AIProviderForOpenRouter\Models\OpenRouterTextGenerationModel;
+use rtCamp\AIProviderForOpenRouter\Models\OpenRouterTextToSpeechConversionModel;
 use WordPress\AiClient\Common\Exception\RuntimeException;
 use WordPress\AiClient\Providers\ApiBasedImplementation\AbstractApiProvider;
 use WordPress\AiClient\Providers\Contracts\ModelMetadataDirectoryInterface;
@@ -76,8 +77,15 @@ class OpenRouterProvider extends AbstractApiProvider {
 			return new OpenRouterImageGenerationModel( $model_metadata, $provider_metadata );
 		}
 
+		if ( in_array( 'text_to_speech_conversion', $capabilities_string_list, true ) ) {
+			return new OpenRouterTextToSpeechConversionModel( $model_metadata, $provider_metadata );
+		}
+
 		$capabilities = $model_metadata->getSupportedCapabilities();
 		foreach ( $capabilities as $capability ) {
+			if ( $capability->isTextToSpeechConversion() ) {
+				return new OpenRouterTextToSpeechConversionModel( $model_metadata, $provider_metadata );
+			}
 			if ( $capability->isTextGeneration() ) {
 				return new OpenRouterTextGenerationModel( $model_metadata, $provider_metadata );
 			}
@@ -100,7 +108,7 @@ class OpenRouterProvider extends AbstractApiProvider {
 			// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- Provider documentation reference URL.
 			'https://openrouter.ai/docs/api/reference/overview',
 			RequestAuthenticationMethod::apiKey(),
-			__( 'Text and image generation using various models.', 'rtcamps-ai-provider-for-openrouter' ),
+			__( 'Text, image, and speech generation using various models.', 'rtcamps-ai-provider-for-openrouter' ),
 			RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_PLUGIN_DIR . 'assets/images/openrouter-logo.svg'
 		);
 	}

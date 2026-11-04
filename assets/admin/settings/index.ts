@@ -23,11 +23,16 @@ interface OpenRouterSettingsI18n {
 	perMillion?: string;
 	free?: string;
 	na?: string;
+	selectVoice?: string;
+	defaultVoice?: string;
+	noVoices?: string;
 }
 
 interface OpenRouterSettingsGlobal {
 	selectedModel?: string;
 	selectedImageModel?: string;
+	selectedTtsModel?: string;
+	selectedTtsVoice?: string;
 	i18n?: OpenRouterSettingsI18n;
 }
 
@@ -50,6 +55,7 @@ interface OpenRouterModel {
 	name?: string;
 	pricing?: Pricing;
 	context_length?: number;
+	supported_voices?: string[] | null;
 }
 
 (function () {
@@ -58,8 +64,10 @@ interface OpenRouterModel {
 	// Keep track of the models loaded from the server
 	let allModels: OpenRouterModel[] = [];
 	let allImageModels: OpenRouterModel[] = [];
+	let allTtsModels: OpenRouterModel[] = [];
 	let isLoaded = false;
 	let isImageLoaded = false;
+	let isTtsLoaded = false;
 
 	const settings = window.AIProviderForOpenRouterByrtCampSettings || {};
 	const i18n = settings.i18n || {};
@@ -273,6 +281,7 @@ interface OpenRouterModel {
 	 * @param hiddenInput Hidden field storing final saved model name.
 	 * @param infoEl      Block underneath the input displaying selection details.
 	 * @param queryText   Search query term to highlight.
+	 * @param onSelect    Optional callback fired on selection.
 	 */
 	function renderDropdown(
 		matches: OpenRouterModel[],
@@ -280,7 +289,8 @@ interface OpenRouterModel {
 		searchInput: HTMLInputElement,
 		hiddenInput: HTMLInputElement,
 		infoEl: HTMLElement,
-		queryText: string = ''
+		queryText: string = '',
+		onSelect?: (selectedModel: OpenRouterModel) => void
 	): void {
 		dropdown.innerHTML = '';
 
@@ -355,7 +365,14 @@ interface OpenRouterModel {
 			item.addEventListener('mousedown', function (e) {
 				// Prevent input blur before click event resolves
 				e.preventDefault();
-				selectModel(model, searchInput, hiddenInput, dropdown, infoEl);
+				selectModel(
+					model,
+					searchInput,
+					hiddenInput,
+					dropdown,
+					infoEl,
+					onSelect
+				);
 			});
 
 			dropdown.appendChild(item);
@@ -373,19 +390,24 @@ interface OpenRouterModel {
 	 * @param hiddenInput Hidden value storage input element.
 	 * @param dropdown    Autocomplete dropdown container.
 	 * @param infoEl      Information badge container.
+	 * @param onSelect    Optional callback fired on selection.
 	 */
 	function selectModel(
 		model: OpenRouterModel,
 		searchInput: HTMLInputElement,
 		hiddenInput: HTMLInputElement,
 		dropdown: HTMLElement,
-		infoEl: HTMLElement
+		infoEl: HTMLElement,
+		onSelect?: (selectedModel: OpenRouterModel) => void
 	): void {
 		const modelId = typeof model.id === 'string' ? model.id : '';
 		searchInput.value = modelId;
 		hiddenInput.value = modelId;
 		dropdown.style.display = 'none';
 		renderModelInfo(model, infoEl);
+		if (onSelect) {
+			onSelect(model);
+		}
 	}
 
 	function formatPricingKey(key: string): string {
@@ -734,6 +756,360 @@ interface OpenRouterModel {
 	}
 
 	/**
+	 * Filters loaded text-to-speech models based on our active search terms.
+	 *
+	 * @param query Active search term.
+	 * @returns Matches array list of text-to-speech models.
+	 */
+	function getTtsModelMatches(query: string): OpenRouterModel[] {
+		const ttsModels = allTtsModels;
+
+		if (!query) {
+			return ttsModels;
+		}
+
+		return ttsModels.filter(function (model) {
+			const id =
+				typeof model.id === 'string' ? model.id.toLowerCase() : '';
+			const name =
+				typeof model.name === 'string' ? model.name.toLowerCase() : '';
+			return id.indexOf(query) !== -1 || name.indexOf(query) !== -1;
+		});
+	}
+
+	/**
+	 * Filters text-to-speech models and renders appropriate suggestions.
+	 *
+	 * @param query          Search query.
+	 * @param dropdown       Dropdown element.
+	 * @param ttsSearchInput Autocomplete input.
+	 * @param ttsHiddenInput Hidden value storage input.
+	 * @param ttsInfoEl      Information badge container.
+	 * @param voiceSelect    Voice selection dropdown element.
+	 */
+	function filterTtsModels(
+		query: string,
+		dropdown: HTMLElement,
+		ttsSearchInput: HTMLInputElement,
+		ttsHiddenInput: HTMLInputElement,
+		ttsInfoEl: HTMLElement,
+		voiceSelect: HTMLSelectElement | null
+	): void {
+		renderDropdown(
+			getTtsModelMatches(query).slice(0, 5),
+			dropdown,
+			ttsSearchInput,
+			ttsHiddenInput,
+			ttsInfoEl,
+			query,
+			function (model) {
+				updateVoiceDropdown(model.id, voiceSelect);
+			}
+		);
+	}
+
+	/**
+	 * Updates the voice dropdown options based on the chosen speech model's supported_voices.
+	 *
+	 * @param selectedModelId Selected speech model ID.
+	 * @param voiceSelect     Voice select HTML element.
+	 */
+	function updateVoiceDropdown(
+		selectedModelId: string,
+		voiceSelect: HTMLSelectElement | null
+	): void {
+		if (!voiceSelect) {
+			return;
+		}
+
+		const currentVal = voiceSelect.value || settings.selectedTtsVoice || '';
+		voiceSelect.innerHTML = '';
+
+		const foundModel = allTtsModels.find(function (m) {
+			return m.id === selectedModelId;
+		});
+		const voices = foundModel?.supported_voices;
+
+		if (Array.isArray(voices) && voices.length > 0) {
+			const defaultOpt = document.createElement('option');
+			defaultOpt.value = '';
+			defaultOpt.textContent =
+				i18n.selectVoice ||
+				__('Select a voice…', 'rtcamps-ai-provider-for-openrouter');
+			voiceSelect.appendChild(defaultOpt);
+
+			let matched = false;
+			voices.forEach(function (voice) {
+				const opt = document.createElement('option');
+				opt.value = voice;
+				opt.textContent = voice;
+				if (voice === currentVal) {
+					opt.selected = true;
+					matched = true;
+				}
+				voiceSelect.appendChild(opt);
+			});
+
+			if (!matched && !currentVal) {
+				// Select first voice by default if no voice was configured
+				const firstVoiceOpt = voiceSelect.options[1];
+				if (firstVoiceOpt) {
+					firstVoiceOpt.selected = true;
+				}
+			}
+		} else {
+			const opt = document.createElement('option');
+			opt.value = '';
+			opt.textContent =
+				i18n.noVoices ||
+				__(
+					'No preset voices declared',
+					'rtcamps-ai-provider-for-openrouter'
+				);
+			voiceSelect.appendChild(opt);
+		}
+	}
+
+	/**
+	 * Fetches text-to-speech models and resolves pre-loaded pricing cards.
+	 *
+	 * @param savedTtsModel Saved TTS model identifier value.
+	 * @param ttsStatusEl   Status element container.
+	 * @param ttsInfoEl     Information details card container.
+	 * @param voiceSelect   Voice selection dropdown element.
+	 */
+	function loadTtsModels(
+		savedTtsModel: string,
+		ttsStatusEl: HTMLElement,
+		ttsInfoEl: HTMLElement,
+		voiceSelect: HTMLSelectElement | null
+	): void {
+		ttsStatusEl.textContent =
+			i18n.loading ||
+			__('Loading models…', 'rtcamps-ai-provider-for-openrouter');
+		ttsStatusEl.className = 'openrouter-status openrouter-status-loading';
+
+		apiFetch<OpenRouterModel[]>({
+			path: '/rtcamps-ai-provider-for-openrouter/v1/tts-models',
+		})
+			.then(function (data) {
+				allTtsModels = data;
+				isTtsLoaded = true;
+
+				ttsStatusEl.textContent =
+					allTtsModels.length +
+					' ' +
+					__(
+						'speech models available.',
+						'rtcamps-ai-provider-for-openrouter'
+					);
+				ttsStatusEl.className =
+					'openrouter-status openrouter-status-ready';
+				ttsStatusEl.style.color = '';
+
+				if (savedTtsModel) {
+					const selectedTtsModelData =
+						getTtsModelMatches('').find(function (model) {
+							return model.id === savedTtsModel;
+						}) || (savedTtsModel ? { id: savedTtsModel } : null);
+					renderModelInfo(selectedTtsModelData, ttsInfoEl);
+				}
+
+				updateVoiceDropdown(savedTtsModel, voiceSelect);
+			})
+			.catch(function (error: unknown) {
+				const err = error as { message?: string };
+				ttsStatusEl.textContent =
+					err?.message ||
+					i18n.errorLoad ||
+					__(
+						'Could not load models.',
+						'rtcamps-ai-provider-for-openrouter'
+					);
+				ttsStatusEl.className = 'openrouter-status';
+				ttsStatusEl.style.color = '#d63638';
+			});
+	}
+
+	/**
+	 * Filters loaded text-to-speech models based on our active search terms.
+	 *
+	 * @param query Active search term.
+	 * @returns Matches array list of text-to-speech models.
+	 */
+	function getTtsModelMatches(query: string): OpenRouterModel[] {
+		const ttsModels = allTtsModels;
+
+		if (!query) {
+			return ttsModels;
+		}
+
+		return ttsModels.filter(function (model) {
+			const id =
+				typeof model.id === 'string' ? model.id.toLowerCase() : '';
+			const name =
+				typeof model.name === 'string' ? model.name.toLowerCase() : '';
+			return id.indexOf(query) !== -1 || name.indexOf(query) !== -1;
+		});
+	}
+
+	/**
+	 * Filters text-to-speech models and renders appropriate suggestions.
+	 *
+	 * @param query          Search query.
+	 * @param dropdown       Dropdown element.
+	 * @param ttsSearchInput Autocomplete input.
+	 * @param ttsHiddenInput Hidden value storage input.
+	 * @param ttsInfoEl      Information badge container.
+	 * @param voiceSelect    Voice selection dropdown element.
+	 */
+	function filterTtsModels(
+		query: string,
+		dropdown: HTMLElement,
+		ttsSearchInput: HTMLInputElement,
+		ttsHiddenInput: HTMLInputElement,
+		ttsInfoEl: HTMLElement,
+		voiceSelect: HTMLSelectElement | null
+	): void {
+		renderDropdown(
+			getTtsModelMatches(query).slice(0, 5),
+			dropdown,
+			ttsSearchInput,
+			ttsHiddenInput,
+			ttsInfoEl,
+			query,
+			function (model) {
+				updateVoiceDropdown(model.id, voiceSelect);
+			}
+		);
+	}
+
+	/**
+	 * Updates the voice dropdown options based on the chosen speech model's supported_voices.
+	 *
+	 * @param selectedModelId Selected speech model ID.
+	 * @param voiceSelect     Voice select HTML element.
+	 */
+	function updateVoiceDropdown(
+		selectedModelId: string,
+		voiceSelect: HTMLSelectElement | null
+	): void {
+		if (!voiceSelect) {
+			return;
+		}
+
+		const currentVal =
+			voiceSelect.value || settings.selectedTtsVoice || '';
+		voiceSelect.innerHTML = '';
+
+		const foundModel = allTtsModels.find(function (m) {
+			return m.id === selectedModelId;
+		});
+		const voices = foundModel?.supported_voices;
+
+		if (Array.isArray(voices) && voices.length > 0) {
+			const defaultOpt = document.createElement('option');
+			defaultOpt.value = '';
+			defaultOpt.textContent =
+				i18n.selectVoice ||
+				__('Select a voice…', 'rtcamps-ai-provider-for-openrouter');
+			voiceSelect.appendChild(defaultOpt);
+
+			let matched = false;
+			voices.forEach(function (voice) {
+				const opt = document.createElement('option');
+				opt.value = voice;
+				opt.textContent = voice;
+				if (voice === currentVal) {
+					opt.selected = true;
+					matched = true;
+				}
+				voiceSelect.appendChild(opt);
+			});
+
+			if (!matched && !currentVal) {
+				// Select first voice by default if no voice was configured
+				const firstVoiceOpt = voiceSelect.options[1];
+				if (firstVoiceOpt) {
+					firstVoiceOpt.selected = true;
+				}
+			}
+		} else {
+			const opt = document.createElement('option');
+			opt.value = '';
+			opt.textContent =
+				i18n.noVoices ||
+				__(
+					'No preset voices declared',
+					'rtcamps-ai-provider-for-openrouter'
+				);
+			voiceSelect.appendChild(opt);
+		}
+	}
+
+	/**
+	 * Fetches text-to-speech models and resolves pre-loaded pricing cards.
+	 *
+	 * @param savedTtsModel Saved TTS model identifier value.
+	 * @param ttsStatusEl   Status element container.
+	 * @param ttsInfoEl     Information details card container.
+	 * @param voiceSelect   Voice selection dropdown element.
+	 */
+	function loadTtsModels(
+		savedTtsModel: string,
+		ttsStatusEl: HTMLElement,
+		ttsInfoEl: HTMLElement,
+		voiceSelect: HTMLSelectElement | null
+	): void {
+		ttsStatusEl.textContent =
+			i18n.loading ||
+			__('Loading models…', 'rtcamps-ai-provider-for-openrouter');
+		ttsStatusEl.className = 'openrouter-status openrouter-status-loading';
+
+		apiFetch<OpenRouterModel[]>({
+			path: '/rtcamps-ai-provider-for-openrouter/v1/tts-models',
+		})
+			.then(function (data) {
+				allTtsModels = data;
+				isTtsLoaded = true;
+
+				ttsStatusEl.textContent =
+					allTtsModels.length +
+					' ' +
+					__(
+						'speech models available.',
+						'rtcamps-ai-provider-for-openrouter'
+					);
+				ttsStatusEl.className =
+					'openrouter-status openrouter-status-ready';
+				ttsStatusEl.style.color = '';
+
+				if (savedTtsModel) {
+					const selectedTtsModelData =
+						getTtsModelMatches('').find(function (model) {
+							return model.id === savedTtsModel;
+						}) ||
+						(savedTtsModel ? { id: savedTtsModel } : null);
+					renderModelInfo(selectedTtsModelData, ttsInfoEl);
+				}
+
+				updateVoiceDropdown(savedTtsModel, voiceSelect);
+			})
+			.catch(function (error: unknown) {
+				const err = error as { message?: string };
+				ttsStatusEl.textContent =
+					err?.message ||
+					i18n.errorLoad ||
+					__(
+						'Could not load models.',
+						'rtcamps-ai-provider-for-openrouter'
+					);
+				ttsStatusEl.className = 'openrouter-status';
+				ttsStatusEl.style.color = '#d63638';
+			});
+	}
+
+	/**
 	 * Bootstraps autocompletes and layout handles once settings are loaded.
 	 */
 	function init(): void {
@@ -746,6 +1122,7 @@ interface OpenRouterModel {
 		const dropdown = document.getElementById('openrouter-model-dropdown');
 		const infoEl = document.getElementById('openrouter-model-info');
 		const statusEl = document.getElementById('openrouter-model-status');
+
 		const imageSearchInput = document.getElementById(
 			'ai_provider_for_openrouter_by_rtcamp_settings-image-model-search'
 		) as HTMLInputElement | null;
@@ -778,12 +1155,41 @@ interface OpenRouterModel {
 			return;
 		}
 
+		const ttsSearchInput = document.getElementById(
+			'ai_provider_for_openrouter_by_rtcamp_settings-tts-model-search'
+		) as HTMLInputElement | null;
+		const ttsHiddenInput = document.getElementById(
+			'ai_provider_for_openrouter_by_rtcamp_settings-tts-model-value'
+		) as HTMLInputElement | null;
+		const ttsDropdown = document.getElementById(
+			'openrouter-tts-model-dropdown'
+		);
+		const ttsInfoEl = document.getElementById('openrouter-tts-model-info');
+		const ttsStatusEl = document.getElementById(
+			'openrouter-tts-model-status'
+		);
+		const ttsVoiceSelect = document.getElementById(
+			'ai_provider_for_openrouter_by_rtcamp_settings-tts-voice-select'
+		) as HTMLSelectElement | null;
+
 		const savedModel = settings.selectedModel || '';
 		const savedImageModel = settings.selectedImageModel || '';
+		const savedTtsModel = settings.selectedTtsModel || '';
 
 		// Trigger model loading
 		loadModels(savedModel, statusEl, infoEl);
 		loadImageModels(savedImageModel, imageStatusEl, imageInfoEl);
+		if (ttsStatusEl && ttsInfoEl) {
+			loadTtsModels(
+				savedTtsModel,
+				ttsStatusEl,
+				ttsInfoEl,
+				ttsVoiceSelect
+			);
+		}
+		if (ttsStatusEl && ttsInfoEl) {
+			loadTtsModels(savedTtsModel, ttsStatusEl, ttsInfoEl, ttsVoiceSelect);
+		}
 
 		// Text Model inputs and events
 		searchInput.addEventListener('input', function () {
@@ -878,6 +1284,145 @@ interface OpenRouterModel {
 				imageDropdown.style.display = 'none';
 			}
 		});
+
+		// TTS Model inputs and events
+		if (
+			ttsSearchInput &&
+			ttsHiddenInput &&
+			ttsDropdown &&
+			ttsInfoEl &&
+			ttsStatusEl
+		) {
+			ttsSearchInput.addEventListener('input', function () {
+				ttsHiddenInput.value = this.value.trim();
+
+				if (!isTtsLoaded) {
+					return;
+				}
+
+				const query = this.value.trim().toLowerCase();
+				filterTtsModels(
+					query,
+					ttsDropdown,
+					ttsSearchInput,
+					ttsHiddenInput,
+					ttsInfoEl,
+					ttsVoiceSelect
+				);
+
+				const directMatch = allTtsModels.find(function (m) {
+					return m.id === ttsSearchInput.value.trim();
+				});
+				if (directMatch) {
+					updateVoiceDropdown(directMatch.id, ttsVoiceSelect);
+				}
+			});
+
+			ttsSearchInput.addEventListener('focus', function () {
+				if (!isTtsLoaded) {
+					ttsStatusEl.textContent =
+						i18n.loading ||
+						__(
+							'Loading models…',
+							'rtcamps-ai-provider-for-openrouter'
+						);
+					return;
+				}
+
+				ttsStatusEl.textContent =
+					getTtsModelMatches('').length +
+					' ' +
+					__(
+						'speech models available.',
+						'rtcamps-ai-provider-for-openrouter'
+					);
+				filterTtsModels(
+					this.value.trim().toLowerCase(),
+					ttsDropdown,
+					ttsSearchInput,
+					ttsHiddenInput,
+					ttsInfoEl,
+					ttsVoiceSelect
+				);
+			});
+
+			ttsSearchInput.addEventListener('blur', function () {
+				setTimeout(function () {
+					ttsDropdown.style.display = 'none';
+				}, 200);
+			});
+
+			ttsSearchInput.addEventListener('keydown', function (e) {
+				if (e.key === 'Escape') {
+					ttsDropdown.style.display = 'none';
+				}
+			});
+		}
+
+		// TTS Model inputs and events
+		if (ttsSearchInput && ttsHiddenInput && ttsDropdown && ttsInfoEl && ttsStatusEl) {
+			ttsSearchInput.addEventListener('input', function () {
+				ttsHiddenInput.value = this.value.trim();
+
+				if (!isTtsLoaded) {
+					return;
+				}
+
+				const query = this.value.trim().toLowerCase();
+				filterTtsModels(
+					query,
+					ttsDropdown,
+					ttsSearchInput,
+					ttsHiddenInput,
+					ttsInfoEl,
+					ttsVoiceSelect
+				);
+
+				const directMatch = allTtsModels.find(function (m) {
+					return m.id === ttsSearchInput.value.trim();
+				});
+				if (directMatch) {
+					updateVoiceDropdown(directMatch.id, ttsVoiceSelect);
+				}
+			});
+
+			ttsSearchInput.addEventListener('focus', function () {
+				if (!isTtsLoaded) {
+					ttsStatusEl.textContent =
+						i18n.loading ||
+						__('Loading models…', 'rtcamps-ai-provider-for-openrouter');
+					return;
+				}
+
+				ttsStatusEl.textContent =
+					getTtsModelMatches('').length +
+					' ' +
+					__(
+						'speech models available.',
+						'rtcamps-ai-provider-for-openrouter'
+					);
+				filterTtsModels(
+					this.value.trim().toLowerCase(),
+					ttsDropdown,
+					ttsSearchInput,
+					ttsHiddenInput,
+					ttsInfoEl,
+					ttsVoiceSelect
+				);
+			});
+
+			ttsSearchInput.addEventListener('blur', function () {
+				setTimeout(function () {
+					ttsDropdown.style.display = 'none';
+				}, 200);
+			});
+
+			ttsSearchInput.addEventListener('keydown', function (e) {
+				if (e.key === 'Escape') {
+					ttsDropdown.style.display = 'none';
+				}
+			});
+		}
 	}
 
 	// Initialize logic when page and DOM are ready
