@@ -1,6 +1,6 @@
 === rtCamp’s AI Provider for OpenRouter ===
 Contributors:      rtcamp, milindmore22, vishal4669, aishwarryapande, aviralmittal89
-Tags:              ai, openrouter, llm, connector, image-generation
+Tags:              ai, openrouter, llm, connector, image-generation, text-to-speech, tts
 Requires at least: 7.0
 Requires PHP:      7.4
 Stable tag:        1.1.1
@@ -12,7 +12,7 @@ OpenRouter connector for the WordPress AI Client.
 
 == Description ==
 
-rtCamp’s AI Provider for OpenRouter registers OpenRouter as an AI provider for the WordPress AI Client. It enables WordPress to access hundreds of AI models for text and image generation (including OpenAI GPT, Anthropic Claude, Google Gemini, and open-source models) through a single unified API and API key.
+rtCamp’s AI Provider for OpenRouter registers OpenRouter as an AI provider for the WordPress AI Client. It enables WordPress to access hundreds of AI models for text, image, and speech generation (including OpenAI GPT, Anthropic Claude, Google Gemini, and open-source models) through a single unified API and API key.
 
 **Requirements:**
 
@@ -22,27 +22,30 @@ rtCamp’s AI Provider for OpenRouter registers OpenRouter as an AI provider for
 **Features:**
 
 * OpenRouter provider registration for the WordPress AI Client.
-* Configure different default models for text and image generation.
-* Model selection displays live pricing (cost per 1M tokens or per image generation).
+* Configure different default models for text, image, and text-to-speech (TTS) generation.
+* Model selection displays live pricing (cost per 1M tokens, per image generation, or per request).
 * Text generation using OpenRouter's chat completions endpoint, supporting all chat modalities.
 * Image generation using OpenRouter's chat completions image modality.
+* Text-to-speech (TTS) conversion using OpenRouter's audio speech endpoint.
+* Dynamic voice selection populated based on the selected TTS model's supported voices.
 * Autocomplete model selection dynamically populated from OpenRouter's model catalog.
 
 **Developer Filters:**
 
 * `rtcamps_ai_provider_for_openrouter_text_generation_params`: Filter the request parameters before dispatching text generation requests to OpenRouter.
 * `rtcamps_ai_provider_for_openrouter_image_generation_params`: Filter the request parameters before dispatching image generation requests to OpenRouter.
+* `rtcamps_ai_provider_for_openrouter_tts_params`: Filter the request parameters before dispatching text-to-speech requests to OpenRouter.
 
 == External services ==
 
 This plugin connects to third-party services provided by OpenRouter, Inc. to retrieve available AI model listings and process AI generation requests.
 
 * **Model Catalog Discovery:**
-  * **What it is used for:** Fetching available text and image models and their pricing metadata for the settings screen.
-  * **What data is sent and when:** An HTTP GET request is sent to OpenRouter (`https://openrouter.ai/api/v1/models`) when an administrator visits the OpenRouter Settings page or queries the plugin's REST API endpoints (`/wp-json/ai-openrouter/v1/models` and `/wp-json/ai-openrouter/v1/image-models`). No personal data, site data, or API keys are transmitted during this request. Retrieved models are cached locally in WordPress transients.
-* **Content & Image Generation:**
-  * **What it is used for:** Generating text completions and images requested through the WordPress AI Client.
-  * **What data is sent and when:** Prompts, context text/inputs, and the configured OpenRouter API key (sent in the HTTP Authorization header) are sent via HTTPS POST to OpenRouter (`https://openrouter.ai/api/v1/chat/completions`) only when a user explicitly initiates an AI generation action.
+  * **What it is used for:** Fetching available text, image, and speech models along with their pricing and voice metadata for the settings screen.
+  * **What data is sent and when:** An HTTP GET request is sent to OpenRouter (`https://openrouter.ai/api/v1/models`) when an administrator visits the OpenRouter Settings page or queries the plugin's REST API endpoints (`/wp-json/rtcamps-ai-provider-for-openrouter/v1/models`, `/wp-json/rtcamps-ai-provider-for-openrouter/v1/image-models`, and `/wp-json/rtcamps-ai-provider-for-openrouter/v1/tts-models`). No personal data, site data, or API keys are transmitted during this request. Retrieved models are cached locally in WordPress transients.
+* **Content, Image & Speech Generation:**
+  * **What it is used for:** Generating text completions, images, and synthesizing speech requested through the WordPress AI Client.
+  * **What data is sent and when:** Prompts, context text/inputs, and the configured OpenRouter API key (sent in the HTTP Authorization header) are sent via HTTPS POST to OpenRouter (`https://openrouter.ai/api/v1/chat/completions` for text and images, and `https://openrouter.ai/api/v1/audio/speech` for speech synthesis) only when a user explicitly initiates an AI generation action.
 
 This service is provided by OpenRouter, Inc.
 
@@ -55,7 +58,7 @@ This service is provided by OpenRouter, Inc.
 2. Upload plugin files to `/wp-content/plugins/rtcamps-ai-provider-for-openrouter/` or install via the WordPress Plugins menu.
 3. Activate **rtCamp’s AI Provider for OpenRouter** through the Plugins menu in WordPress.
 4. Add your OpenRouter API key in **Settings > Connectors**.
-5. Configure default text and image models in **Settings > OpenRouter Settings**.
+5. Configure default text, image, and text-to-speech models and voices in **Settings > OpenRouter Settings**.
 
 == Screenshots ==
 1. Connector settings page showing OpenRouter API key configuration.
@@ -77,23 +80,34 @@ No, this plugin requires the WordPress AI Client plugin (`ai` or `wordpress/php-
 
 Once the WordPress AI Client is installed, set your API key in **Settings > Connectors** under the OpenRouter section.
 
-= Where do I choose the text and image models? =
+= Where do I choose the text, image, and speech models? =
 
-Use **Settings > OpenRouter Settings** to choose default models for text and image generation.
+Use **Settings > OpenRouter Settings** to choose default models for text, image, and text-to-speech generation, as well as preferred voices.
 
-= How much does it cost to generate text and images? =
+= How much does it cost to generate text, images, and speech? =
 
-The cost depends on the models you choose. The settings page displays the cost per 1M tokens for text models and per image for image models.
+The cost depends on the models you choose. The settings page displays the cost per 1M tokens for text models, per image for image models, and pricing for speech models.
 
 = Which OpenRouter models are selected by default? =
 
-The plugin defaults to `openrouter/free` for text and `openrouter/auto` for images as there are no free image options available, but you can change this in the settings.
+The plugin defaults to `openrouter/free` for text, `openrouter/auto` for images (as there are no free image options available), and `heygen/heygen-voice-1-turbo:free` for speech synthesis, but you can change these in the settings.
+
+= Can I use text-to-speech (TTS) with OpenRouter? =
+
+Yes. The plugin integrates with OpenRouter's audio speech API and the WordPress AI Client text-to-speech conversion interface. You can select any OpenRouter model supporting the speech modality (such as HeyGen Voice Turbo, OpenAI TTS, etc.) and choose from the model's supported voices.
 
 == Source Code ==
 
 The source code is available on <a href="https://github.com/rtCamp/rtcamps-ai-provider-for-openrouter">GitHub</a>.
 
 == Changelog ==
+
+= 1.2.0 =
+* Added support for Text-to-Speech (TTS) conversion via OpenRouter's `/api/v1/audio/speech` endpoint.
+* Added settings to choose Default TTS Model and Voice with live autocomplete and dynamic voice listing.
+* Set default TTS model to free model `heygen/heygen-voice-1-turbo:free`.
+* Added REST API endpoint `/wp-json/rtcamps-ai-provider-for-openrouter/v1/tts-models`.
+* Added developer filter `rtcamps_ai_provider_for_openrouter_tts_params`.
 
 = 1.1.1 =
 * Renamed the plugin to "rtCamp’s AI Provider for OpenRouter" for better clarity and branding.
