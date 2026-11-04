@@ -998,8 +998,7 @@ interface OpenRouterModel {
 			return;
 		}
 
-		const currentVal =
-			voiceSelect.value || settings.selectedTtsVoice || '';
+		const currentVal = voiceSelect.value || settings.selectedTtsVoice || '';
 		voiceSelect.innerHTML = '';
 
 		const foundModel = allTtsModels.find(function (m) {
@@ -1088,8 +1087,7 @@ interface OpenRouterModel {
 					const selectedTtsModelData =
 						getTtsModelMatches('').find(function (model) {
 							return model.id === savedTtsModel;
-						}) ||
-						(savedTtsModel ? { id: savedTtsModel } : null);
+						}) || (savedTtsModel ? { id: savedTtsModel } : null);
 					renderModelInfo(selectedTtsModelData, ttsInfoEl);
 				}
 
@@ -1188,7 +1186,12 @@ interface OpenRouterModel {
 			);
 		}
 		if (ttsStatusEl && ttsInfoEl) {
-			loadTtsModels(savedTtsModel, ttsStatusEl, ttsInfoEl, ttsVoiceSelect);
+			loadTtsModels(
+				savedTtsModel,
+				ttsStatusEl,
+				ttsInfoEl,
+				ttsVoiceSelect
+			);
 		}
 
 		// Text Model inputs and events
@@ -1360,7 +1363,13 @@ interface OpenRouterModel {
 		}
 
 		// TTS Model inputs and events
-		if (ttsSearchInput && ttsHiddenInput && ttsDropdown && ttsInfoEl && ttsStatusEl) {
+		if (
+			ttsSearchInput &&
+			ttsHiddenInput &&
+			ttsDropdown &&
+			ttsInfoEl &&
+			ttsStatusEl
+		) {
 			ttsSearchInput.addEventListener('input', function () {
 				ttsHiddenInput.value = this.value.trim();
 
@@ -1390,7 +1399,10 @@ interface OpenRouterModel {
 				if (!isTtsLoaded) {
 					ttsStatusEl.textContent =
 						i18n.loading ||
-						__('Loading models…', 'rtcamps-ai-provider-for-openrouter');
+						__(
+							'Loading models…',
+							'rtcamps-ai-provider-for-openrouter'
+						);
 					return;
 				}
 
