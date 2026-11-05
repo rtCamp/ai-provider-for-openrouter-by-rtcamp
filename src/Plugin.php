@@ -36,6 +36,7 @@ class Plugin {
 		add_action( 'init', [ $this, 'register_fallback_auth' ], 15 );
 		add_action( 'init', [ $this, 'initialize_settings' ] );
 		add_filter( 'ai_experiments_preferred_image_models', [ $this, 'prepend_openrouter_image_model' ], 5 );
+		add_filter( 'wpai_preferred_speech_models', [ $this, 'prepend_openrouter_speech_model' ], 5 );
 		add_filter( 'plugin_action_links_' . plugin_basename( RTCAMPS_AI_PROVIDER_FOR_OPENROUTER_PLUGIN_FILE ), [ $this, 'plugin_action_links' ] );
 	}
 
@@ -112,6 +113,22 @@ class Plugin {
 	 */
 	public function prepend_openrouter_image_model( array $models ): array {
 		$selected = OpenRouterSettings::get_selected_image_model();
+		if ( '' !== $selected ) {
+			array_unshift( $models, [ 'rtcamps-ai-provider-for-openrouter', $selected ] );
+		}
+		return $models;
+	}
+
+	/**
+	 * Prepends the configured OpenRouter text-to-speech model to the preferred speech models list.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param array<array{string, string}> $models Ordered list of [provider, model] pairs.
+	 * @return array<array{string, string}> Modified list with OpenRouter entry at the front.
+	 */
+	public function prepend_openrouter_speech_model( array $models ): array {
+		$selected = OpenRouterSettings::get_selected_tts_model();
 		if ( '' !== $selected ) {
 			array_unshift( $models, [ 'rtcamps-ai-provider-for-openrouter', $selected ] );
 		}

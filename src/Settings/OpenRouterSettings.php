@@ -29,13 +29,19 @@ class OpenRouterSettings {
 	private const SECTION_ID    = 'ai_provider_for_openrouter_by_rtcamp_main';
 	private const KEY_MODEL     = 'model';
 	private const KEY_IMAGE_MODEL = 'image_model';
+	private const KEY_TTS_MODEL = 'tts_model';
+	private const KEY_TTS_VOICE = 'tts_voice';
 	private const MODELS_TRANSIENT = 'ai_openrouter_models_v1';
 	private const MODELS_IMAGE_TRANSIENT = 'ai_openrouter_image_models_v1';
+	private const MODELS_TTS_TRANSIENT = 'ai_openrouter_tts_models_v1';
 	private const MODELS_CACHE_TTL = HOUR_IN_SECONDS;
 	// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- AI Provider plugin connects directly to OpenRouter API.
 	private const OPENROUTER_MODELS_URL = 'https://openrouter.ai/api/v1/models?output_modality=text';
 	// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- AI Provider plugin connects directly to OpenRouter API.
 	private const OPENROUTER_IMAGE_MODELS_URL = 'https://openrouter.ai/api/v1/models?output_modality=image';
+	// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- AI Provider plugin connects directly to OpenRouter API.
+	private const OPENROUTER_TTS_MODELS_URL = 'https://openrouter.ai/api/v1/models?output_modalities=speech';
+	private const DEFAULT_TTS_MODEL = 'heygen/heygen-voice-1-turbo:free';
 
 	/**
 	 * Initializes the settings.
@@ -89,6 +95,24 @@ class OpenRouterSettings {
 			self::SECTION_ID,
 			[ 'label_for' => self::OPTION_NAME . '-image-model-search' ]
 		);
+
+		add_settings_field(
+			self::OPTION_NAME . '_tts_model',
+			__( 'Text to Speech Model', 'rtcamps-ai-provider-for-openrouter' ),
+			[ $this, 'render_tts_model_field' ],
+			self::PAGE_SLUG,
+			self::SECTION_ID,
+			[ 'label_for' => self::OPTION_NAME . '-tts-model-search' ]
+		);
+
+		add_settings_field(
+			self::OPTION_NAME . '_tts_voice',
+			__( 'Default Voice', 'rtcamps-ai-provider-for-openrouter' ),
+			[ $this, 'render_tts_voice_field' ],
+			self::PAGE_SLUG,
+			self::SECTION_ID,
+			[ 'label_for' => self::OPTION_NAME . '-tts-voice-select' ]
+		);
 	}
 
 	/**
@@ -119,14 +143,20 @@ class OpenRouterSettings {
 			return self::get_default_settings();
 		}
 
-		$model = isset( $value[ self::KEY_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_MODEL ] ) : '';
+		$model       = isset( $value[ self::KEY_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_MODEL ] ) : '';
 		$image_model = isset( $value[ self::KEY_IMAGE_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_IMAGE_MODEL ] ) : '';
-		$model = trim( $model );
+		$tts_model   = isset( $value[ self::KEY_TTS_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_TTS_MODEL ] ) : '';
+		$tts_voice   = isset( $value[ self::KEY_TTS_VOICE ] ) ? sanitize_text_field( (string) $value[ self::KEY_TTS_VOICE ] ) : '';
+		$model       = trim( $model );
 		$image_model = trim( $image_model );
+		$tts_model   = trim( $tts_model );
+		$tts_voice   = trim( $tts_voice );
 
 		return [
 			self::KEY_MODEL       => $model,
 			self::KEY_IMAGE_MODEL => $image_model,
+			self::KEY_TTS_MODEL   => $tts_model,
+			self::KEY_TTS_VOICE   => $tts_voice,
 		];
 	}
 
@@ -312,6 +342,87 @@ class OpenRouterSettings {
 
 		<div id="openrouter-image-model-info" class="openrouter-info"></div>
 
+		<?php
+	}
+
+	/**
+	 * Renders the text-to-speech model autocomplete field.
+	 *
+	 * @since 1.2.0
+	 */
+	public function render_tts_model_field(): void {
+		$settings          = self::get_settings();
+		$current_tts_model = isset( $settings[ self::KEY_TTS_MODEL ] ) ? (string) $settings[ self::KEY_TTS_MODEL ] : self::DEFAULT_TTS_MODEL;
+		$input_id          = self::OPTION_NAME . '-tts-model-search';
+		$hidden_id         = self::OPTION_NAME . '-tts-model-value';
+		$hidden_name       = self::OPTION_NAME . '[' . self::KEY_TTS_MODEL . ']';
+		?>
+
+		<div class="openrouter-field-group">
+			<div id="openrouter-tts-model-container" class="openrouter-field-container">
+				<span class="openrouter-search-icon dashicons dashicons-search"></span>
+				<input
+					type="text"
+					id="<?php echo esc_attr( $input_id ); ?>"
+					class="regular-text openrouter-search-input"
+					placeholder="<?php esc_attr_e( 'Type to search speech models…', 'rtcamps-ai-provider-for-openrouter' ); ?>"
+					value="<?php echo esc_attr( $current_tts_model ); ?>"
+					autocomplete="off"
+					aria-label="<?php esc_attr_e( 'Search OpenRouter text to speech models', 'rtcamps-ai-provider-for-openrouter' ); ?>"
+				/>
+				<input
+					type="hidden"
+					id="<?php echo esc_attr( $hidden_id ); ?>"
+					name="<?php echo esc_attr( $hidden_name ); ?>"
+					value="<?php echo esc_attr( $current_tts_model ); ?>"
+				/>
+				<div
+					id="openrouter-tts-model-dropdown"
+					role="listbox"
+					class="openrouter-dropdown"
+				></div>
+			</div>
+
+			<span class="openrouter-tooltip-wrapper" tabindex="0" aria-describedby="openrouter-tts-model-tooltip-desc" aria-label="<?php esc_attr_e( 'TTS model help description', 'rtcamps-ai-provider-for-openrouter' ); ?>">
+				<span class="dashicons dashicons-editor-help"></span>
+				<span id="openrouter-tts-model-tooltip-desc" role="tooltip" class="openrouter-tooltip-text"><?php esc_html_e( 'Choose a dedicated text-to-speech model. This autocomplete lists OpenRouter models that support speech output.', 'rtcamps-ai-provider-for-openrouter' ); ?></span>
+			</span>
+			<span id="openrouter-tts-model-status" class="openrouter-status"></span>
+		</div>
+
+		<div id="openrouter-tts-model-info" class="openrouter-info"></div>
+
+		<?php
+	}
+
+	/**
+	 * Renders the default voice selection dropdown field.
+	 *
+	 * @since 1.2.0
+	 */
+	public function render_tts_voice_field(): void {
+		$settings          = self::get_settings();
+		$current_tts_voice = isset( $settings[ self::KEY_TTS_VOICE ] ) ? (string) $settings[ self::KEY_TTS_VOICE ] : '';
+		$select_id         = self::OPTION_NAME . '-tts-voice-select';
+		$select_name       = self::OPTION_NAME . '[' . self::KEY_TTS_VOICE . ']';
+		?>
+
+		<div class="openrouter-field-group">
+			<select
+				id="<?php echo esc_attr( $select_id ); ?>"
+				name="<?php echo esc_attr( $select_name ); ?>"
+				class="regular-text openrouter-voice-select"
+				aria-label="<?php esc_attr_e( 'Default Voice', 'rtcamps-ai-provider-for-openrouter' ); ?>"
+			>
+				<option value="<?php echo esc_attr( $current_tts_voice ); ?>"><?php echo '' !== $current_tts_voice ? esc_html( $current_tts_voice ) : esc_html__( 'Select a voice…', 'rtcamps-ai-provider-for-openrouter' ); ?></option>
+			</select>
+
+			<span class="openrouter-tooltip-wrapper" tabindex="0" aria-describedby="openrouter-tts-voice-tooltip-desc" aria-label="<?php esc_attr_e( 'TTS voice help description', 'rtcamps-ai-provider-for-openrouter' ); ?>">
+				<span class="dashicons dashicons-editor-help"></span>
+				<span id="openrouter-tts-voice-tooltip-desc" role="tooltip" class="openrouter-tooltip-text"><?php esc_html_e( 'Choose the default voice preset for synthesized speech. Populated automatically based on the selected speech model.', 'rtcamps-ai-provider-for-openrouter' ); ?></span>
+			</span>
+		</div>
+
 		<hr class="openrouter-hr" />
 
 		<p class="description openrouter-description-italic">
@@ -362,18 +473,23 @@ class OpenRouterSettings {
 			[
 				'selectedModel'      => self::get_selected_model(),
 				'selectedImageModel' => self::get_selected_image_model(),
+				'selectedTtsModel'   => self::get_selected_tts_model(),
+				'selectedTtsVoice'   => self::get_selected_tts_voice(),
 				'i18n'               => [
-					'loading'     => __( 'Loading models…', 'rtcamps-ai-provider-for-openrouter' ),
-					'noResults'   => __( 'No models found.', 'rtcamps-ai-provider-for-openrouter' ),
-					'errorLoad'   => __( 'Could not load models.', 'rtcamps-ai-provider-for-openrouter' ),
-					'typeMore'    => __( 'Type at least 3 characters to search.', 'rtcamps-ai-provider-for-openrouter' ),
-					'modelsCount' => __( ' models available.', 'rtcamps-ai-provider-for-openrouter' ),
-					'inPrice'     => __( 'Prompt:', 'rtcamps-ai-provider-for-openrouter' ),
-					'outPrice'    => __( 'Completion:', 'rtcamps-ai-provider-for-openrouter' ),
-					'ctx'         => __( 'ctx', 'rtcamps-ai-provider-for-openrouter' ),
-					'perMillion'  => __( '/1M', 'rtcamps-ai-provider-for-openrouter' ),
-					'free'        => __( 'Free', 'rtcamps-ai-provider-for-openrouter' ),
-					'na'          => __( 'N/A', 'rtcamps-ai-provider-for-openrouter' ),
+					'loading'      => __( 'Loading models…', 'rtcamps-ai-provider-for-openrouter' ),
+					'noResults'    => __( 'No models found.', 'rtcamps-ai-provider-for-openrouter' ),
+					'errorLoad'    => __( 'Could not load models.', 'rtcamps-ai-provider-for-openrouter' ),
+					'typeMore'     => __( 'Type at least 3 characters to search.', 'rtcamps-ai-provider-for-openrouter' ),
+					'modelsCount'  => __( ' models available.', 'rtcamps-ai-provider-for-openrouter' ),
+					'inPrice'      => __( 'Prompt:', 'rtcamps-ai-provider-for-openrouter' ),
+					'outPrice'     => __( 'Completion:', 'rtcamps-ai-provider-for-openrouter' ),
+					'ctx'          => __( 'ctx', 'rtcamps-ai-provider-for-openrouter' ),
+					'perMillion'   => __( '/1M', 'rtcamps-ai-provider-for-openrouter' ),
+					'free'         => __( 'Free', 'rtcamps-ai-provider-for-openrouter' ),
+					'na'           => __( 'N/A', 'rtcamps-ai-provider-for-openrouter' ),
+					'selectVoice'  => __( 'Select a voice…', 'rtcamps-ai-provider-for-openrouter' ),
+					'defaultVoice' => __( 'Model Default', 'rtcamps-ai-provider-for-openrouter' ),
+					'noVoices'     => __( 'No preset voices declared', 'rtcamps-ai-provider-for-openrouter' ),
 				],
 			]
 		);
@@ -401,6 +517,16 @@ class OpenRouterSettings {
 			[
 				'methods'             => 'GET',
 				'callback'            => [ $this, 'get_image_models_endpoint' ],
+				'permission_callback' => [ $this, 'check_rest_permissions' ],
+			]
+		);
+
+		register_rest_route(
+			'rtcamps-ai-provider-for-openrouter/v1',
+			'/tts-models',
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_tts_models_endpoint' ],
 				'permission_callback' => [ $this, 'check_rest_permissions' ],
 			]
 		);
@@ -530,6 +656,62 @@ class OpenRouterSettings {
 	}
 
 	/**
+	 * REST API endpoint to retrieve available text-to-speech models.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return \WP_REST_Response The REST response.
+	 */
+	public function get_tts_models_endpoint(): \WP_REST_Response {
+		$cached = get_transient( self::MODELS_TTS_TRANSIENT );
+		if ( false !== $cached && is_array( $cached ) ) {
+			return new \WP_REST_Response( $cached, 200 );
+		}
+
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.wp_remote_get_wp_remote_get -- External request to OpenRouter public models endpoint.
+		$response = wp_remote_get(
+			self::OPENROUTER_TTS_MODELS_URL,
+			[
+				// phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout -- OpenRouter model listing may be slow on first request.
+				'timeout' => 15,
+				'headers' => [
+					'Accept' => 'application/json',
+				],
+			]
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return new \WP_REST_Response(
+				[
+					// translators: %s: Error message.
+					'message' => sprintf( __( 'Could not fetch OpenRouter text-to-speech models. Error: %s', 'rtcamps-ai-provider-for-openrouter' ), $response->get_error_message() ),
+				],
+				500
+			);
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
+
+		if ( ! is_array( $data ) || ! isset( $data['data'] ) || ! is_array( $data['data'] ) ) {
+			return new \WP_REST_Response( [ 'message' => __( 'Unexpected response from OpenRouter speech models endpoint.', 'rtcamps-ai-provider-for-openrouter' ) ], 500 );
+		}
+
+		$models = array_values(
+			array_filter(
+				$data['data'],
+				static function ( $model ) {
+					return is_array( $model ) && isset( $model['id'] ) && is_string( $model['id'] ) && '' !== trim( $model['id'] );
+				}
+			)
+		);
+
+		set_transient( self::MODELS_TTS_TRANSIENT, $models, self::MODELS_CACHE_TTL );
+
+		return new \WP_REST_Response( $models, 200 );
+	}
+
+	/**
 	 * Returns the currently selected model from settings.
 	 *
 	 * @since 1.0.0
@@ -556,6 +738,44 @@ class OpenRouterSettings {
 	}
 
 	/**
+	 * Returns the currently selected text-to-speech model from settings.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return string The text-to-speech model identifier.
+	 */
+	public static function get_selected_tts_model(): string {
+		$settings  = self::get_settings();
+		$tts_model = ! empty( $settings[ self::KEY_TTS_MODEL ] ) ? (string) $settings[ self::KEY_TTS_MODEL ] : self::DEFAULT_TTS_MODEL;
+		return trim( $tts_model );
+	}
+
+	/**
+	 * Returns the currently selected text-to-speech voice from settings.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return string The text-to-speech voice identifier, or empty string if none.
+	 */
+	public static function get_selected_tts_voice(): string {
+		$settings  = self::get_settings();
+		$tts_voice = ! empty( $settings[ self::KEY_TTS_VOICE ] ) ? (string) $settings[ self::KEY_TTS_VOICE ] : '';
+		return trim( $tts_voice );
+	}
+
+	/**
+	 * Returns cached text-to-speech models from transient.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return array<int, array<string, mixed>> Cached speech models or empty array.
+	 */
+	public static function get_cached_tts_models(): array {
+		$cached = get_transient( self::MODELS_TTS_TRANSIENT );
+		return is_array( $cached ) ? $cached : [];
+	}
+
+	/**
 	 * Gets settings from the WordPress option.
 	 *
 	 * @since 1.0.0
@@ -579,6 +799,8 @@ class OpenRouterSettings {
 		return [
 			self::KEY_MODEL       => '',
 			self::KEY_IMAGE_MODEL => '',
+			self::KEY_TTS_MODEL   => self::DEFAULT_TTS_MODEL,
+			self::KEY_TTS_VOICE   => '',
 		];
 	}
 }
