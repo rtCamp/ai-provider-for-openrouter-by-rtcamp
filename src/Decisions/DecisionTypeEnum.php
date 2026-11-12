@@ -1,0 +1,52 @@
+<?php
+/**
+ * Enum for decision question types.
+ *
+ * @package rtcamp/rtcamps-ai-provider-for-openrouter
+ *
+ * @since 1.3.0
+ */
+
+declare( strict_types=1 );
+
+namespace rtCamp\AIProviderForOpenRouter\Decisions;
+
+use WordPress\AiClient\Common\AbstractEnum;
+
+/**
+ * Enum for the question types a decision model answers.
+ *
+ * @since 1.3.0
+ *
+ * @method static self choice() Creates an instance for the CHOICE type.
+ * @method static self noul() Creates an instance for the NOUL type.
+ * @method static self score() Creates an instance for the SCORE type.
+ * @method static self box() Creates an instance for the BOX type.
+ * @method bool isChoice() Checks if the type is CHOICE.
+ * @method bool isNoul() Checks if the type is NOUL.
+ * @method bool isScore() Checks if the type is SCORE.
+ * @method bool isBox() Checks if the type is BOX.
+ */
+class DecisionTypeEnum extends AbstractEnum {
+
+	/**
+	 * Picks one option from a named set.
+	 */
+	public const CHOICE = 'choice';
+
+	/**
+	 * Estimates the probability that a statement is true.
+	 */
+	public const NOUL = 'noul';
+
+	/**
+	 * Rates against ordered levels.
+	 */
+	public const SCORE = 'score';
+
+	/**
+	 * Locates target objects or regions within visual media.
+	 */
+	public const BOX = 'box';
+}
+

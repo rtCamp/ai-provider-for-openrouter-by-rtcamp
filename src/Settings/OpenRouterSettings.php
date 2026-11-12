@@ -29,19 +29,23 @@ class OpenRouterSettings {
 	private const SECTION_ID    = 'ai_provider_for_openrouter_by_rtcamp_main';
 	private const KEY_MODEL     = 'model';
 	private const KEY_IMAGE_MODEL = 'image_model';
-	private const KEY_TTS_MODEL = 'tts_model';
-	private const KEY_TTS_VOICE = 'tts_voice';
-	private const MODELS_TRANSIENT = 'ai_openrouter_models_v1';
-	private const MODELS_IMAGE_TRANSIENT = 'ai_openrouter_image_models_v1';
-	private const MODELS_TTS_TRANSIENT = 'ai_openrouter_tts_models_v1';
-	private const MODELS_CACHE_TTL = HOUR_IN_SECONDS;
+	private const KEY_TTS_MODEL      = 'tts_model';
+	private const KEY_TTS_VOICE      = 'tts_voice';
+	private const KEY_DECISION_MODEL = 'decision_model';
+	private const MODELS_TRANSIENT   = 'ai_openrouter_models_v1';
+	private const MODELS_IMAGE_TRANSIENT    = 'ai_openrouter_image_models_v1';
+	private const MODELS_TTS_TRANSIENT      = 'ai_openrouter_tts_models_v1';
+	private const MODELS_DECISION_TRANSIENT = 'ai_openrouter_decision_models_v1';
+	private const MODELS_CACHE_TTL          = HOUR_IN_SECONDS;
 	// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- AI Provider plugin connects directly to OpenRouter API.
 	private const OPENROUTER_MODELS_URL = 'https://openrouter.ai/api/v1/models?output_modality=text';
 	// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- AI Provider plugin connects directly to OpenRouter API.
 	private const OPENROUTER_IMAGE_MODELS_URL = 'https://openrouter.ai/api/v1/models?output_modality=image';
 	// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- AI Provider plugin connects directly to OpenRouter API.
 	private const OPENROUTER_TTS_MODELS_URL = 'https://openrouter.ai/api/v1/models?output_modalities=speech';
-	private const DEFAULT_TTS_MODEL = 'heygen/heygen-voice-1-turbo:free';
+	// phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- AI Provider plugin connects directly to OpenRouter API.
+	private const OPENROUTER_DECISION_MODELS_URL = 'https://openrouter.ai/api/v1/models?output_modalities=decisions';
+	private const DEFAULT_TTS_MODEL              = 'heygen/heygen-voice-1-turbo:free';
 
 	/**
 	 * Initializes the settings.
@@ -113,6 +117,15 @@ class OpenRouterSettings {
 			self::SECTION_ID,
 			[ 'label_for' => self::OPTION_NAME . '-tts-voice-select' ]
 		);
+
+		add_settings_field(
+			self::OPTION_NAME . '_decision_model',
+			__( 'Decision Model', 'rtcamps-ai-provider-for-openrouter' ),
+			[ $this, 'render_decision_model_field' ],
+			self::PAGE_SLUG,
+			self::SECTION_ID,
+			[ 'label_for' => self::OPTION_NAME . '-decision-model-search' ]
+		);
 	}
 
 	/**
@@ -143,20 +156,23 @@ class OpenRouterSettings {
 			return self::get_default_settings();
 		}
 
-		$model       = isset( $value[ self::KEY_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_MODEL ] ) : '';
-		$image_model = isset( $value[ self::KEY_IMAGE_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_IMAGE_MODEL ] ) : '';
-		$tts_model   = isset( $value[ self::KEY_TTS_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_TTS_MODEL ] ) : '';
-		$tts_voice   = isset( $value[ self::KEY_TTS_VOICE ] ) ? sanitize_text_field( (string) $value[ self::KEY_TTS_VOICE ] ) : '';
-		$model       = trim( $model );
-		$image_model = trim( $image_model );
-		$tts_model   = trim( $tts_model );
-		$tts_voice   = trim( $tts_voice );
+		$model          = isset( $value[ self::KEY_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_MODEL ] ) : '';
+		$image_model    = isset( $value[ self::KEY_IMAGE_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_IMAGE_MODEL ] ) : '';
+		$tts_model      = isset( $value[ self::KEY_TTS_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_TTS_MODEL ] ) : '';
+		$tts_voice      = isset( $value[ self::KEY_TTS_VOICE ] ) ? sanitize_text_field( (string) $value[ self::KEY_TTS_VOICE ] ) : '';
+		$decision_model = isset( $value[ self::KEY_DECISION_MODEL ] ) ? sanitize_text_field( (string) $value[ self::KEY_DECISION_MODEL ] ) : '';
+		$model          = trim( $model );
+		$image_model    = trim( $image_model );
+		$tts_model      = trim( $tts_model );
+		$tts_voice      = trim( $tts_voice );
+		$decision_model = trim( $decision_model );
 
 		return [
-			self::KEY_MODEL       => $model,
-			self::KEY_IMAGE_MODEL => $image_model,
-			self::KEY_TTS_MODEL   => $tts_model,
-			self::KEY_TTS_VOICE   => $tts_voice,
+			self::KEY_MODEL          => $model,
+			self::KEY_IMAGE_MODEL    => $image_model,
+			self::KEY_TTS_MODEL      => $tts_model,
+			self::KEY_TTS_VOICE      => $tts_voice,
+			self::KEY_DECISION_MODEL => $decision_model,
 		];
 	}
 
@@ -433,6 +449,56 @@ class OpenRouterSettings {
 	}
 
 	/**
+	 * Renders the decision model autocomplete field.
+	 *
+	 * @since 1.3.0
+	 */
+	public function render_decision_model_field(): void {
+		$settings               = self::get_settings();
+		$current_decision_model = isset( $settings[ self::KEY_DECISION_MODEL ] ) ? (string) $settings[ self::KEY_DECISION_MODEL ] : '';
+		$input_id               = self::OPTION_NAME . '-decision-model-search';
+		$hidden_id              = self::OPTION_NAME . '-decision-model-value';
+		$hidden_name            = self::OPTION_NAME . '[' . self::KEY_DECISION_MODEL . ']';
+		?>
+
+		<div class="openrouter-field-group">
+			<div id="openrouter-decision-model-container" class="openrouter-field-container">
+				<span class="openrouter-search-icon dashicons dashicons-search"></span>
+				<input
+					type="text"
+					id="<?php echo esc_attr( $input_id ); ?>"
+					class="regular-text openrouter-search-input"
+					placeholder="<?php esc_attr_e( 'Type to search decision models…', 'rtcamps-ai-provider-for-openrouter' ); ?>"
+					value="<?php echo esc_attr( $current_decision_model ); ?>"
+					autocomplete="off"
+					aria-label="<?php esc_attr_e( 'Search OpenRouter decision models', 'rtcamps-ai-provider-for-openrouter' ); ?>"
+				/>
+				<input
+					type="hidden"
+					id="<?php echo esc_attr( $hidden_id ); ?>"
+					name="<?php echo esc_attr( $hidden_name ); ?>"
+					value="<?php echo esc_attr( $current_decision_model ); ?>"
+				/>
+				<div
+					id="openrouter-decision-model-dropdown"
+					role="listbox"
+					class="openrouter-dropdown"
+				></div>
+			</div>
+
+			<span class="openrouter-tooltip-wrapper" tabindex="0" aria-describedby="openrouter-decision-model-tooltip-desc" aria-label="<?php esc_attr_e( 'Decision model help description', 'rtcamps-ai-provider-for-openrouter' ); ?>">
+				<span class="dashicons dashicons-editor-help"></span>
+				<span id="openrouter-decision-model-tooltip-desc" role="tooltip" class="openrouter-tooltip-text"><?php esc_html_e( 'Choose a default decision model for structured questions. This autocomplete lists OpenRouter models that support decisions output.', 'rtcamps-ai-provider-for-openrouter' ); ?></span>
+			</span>
+			<span id="openrouter-decision-model-status" class="openrouter-status"></span>
+		</div>
+
+		<div id="openrouter-decision-model-info" class="openrouter-info"></div>
+
+		<?php
+	}
+
+	/**
 	 * Enqueues the settings page script.
 	 *
 	 * @since 1.0.0
@@ -471,10 +537,11 @@ class OpenRouterSettings {
 			'rtcamps-ai-provider-for-openrouter-settings',
 			'AIProviderForOpenRouterByrtCampSettings',
 			[
-				'selectedModel'      => self::get_selected_model(),
-				'selectedImageModel' => self::get_selected_image_model(),
-				'selectedTtsModel'   => self::get_selected_tts_model(),
-				'selectedTtsVoice'   => self::get_selected_tts_voice(),
+				'selectedModel'         => self::get_selected_model(),
+				'selectedImageModel'    => self::get_selected_image_model(),
+				'selectedTtsModel'      => self::get_selected_tts_model(),
+				'selectedTtsVoice'      => self::get_selected_tts_voice(),
+				'selectedDecisionModel' => self::get_selected_decision_model(),
 				'i18n'               => [
 					'loading'      => __( 'Loading models…', 'rtcamps-ai-provider-for-openrouter' ),
 					'noResults'    => __( 'No models found.', 'rtcamps-ai-provider-for-openrouter' ),
@@ -527,6 +594,16 @@ class OpenRouterSettings {
 			[
 				'methods'             => 'GET',
 				'callback'            => [ $this, 'get_tts_models_endpoint' ],
+				'permission_callback' => [ $this, 'check_rest_permissions' ],
+			]
+		);
+
+		register_rest_route(
+			'rtcamps-ai-provider-for-openrouter/v1',
+			'/decision-models',
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_decision_models_endpoint' ],
 				'permission_callback' => [ $this, 'check_rest_permissions' ],
 			]
 		);
@@ -712,6 +789,110 @@ class OpenRouterSettings {
 	}
 
 	/**
+	 * REST API endpoint to retrieve available decision models.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return \WP_REST_Response The REST response.
+	 */
+	public function get_decision_models_endpoint(): \WP_REST_Response {
+		$models = self::fetch_decision_models();
+		if ( is_wp_error( $models ) ) {
+			return new \WP_REST_Response(
+				[ 'message' => $models->get_error_message() ],
+				500
+			);
+		}
+
+		return new \WP_REST_Response( $models, 200 );
+	}
+
+	/**
+	 * Fetches and caches available decision models from OpenRouter.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return array<int, array<string, mixed>>|\WP_Error List of model entries or WP_Error on failure.
+	 */
+	public static function fetch_decision_models() {
+		$cached = get_transient( self::MODELS_DECISION_TRANSIENT );
+		if ( false !== $cached && is_array( $cached ) ) {
+			return $cached;
+		}
+
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.wp_remote_get_wp_remote_get -- External request to OpenRouter public models endpoint.
+		$response = wp_remote_get(
+			self::OPENROUTER_DECISION_MODELS_URL,
+			[
+				// phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout -- OpenRouter model listing may be slow on first request.
+				'timeout' => 15,
+				'headers' => [
+					'Accept' => 'application/json',
+				],
+			]
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return new \WP_Error(
+				'openrouter_decision_models_error',
+				sprintf(
+					// translators: %s: Error message.
+					__( 'Could not fetch OpenRouter decision models. Error: %s', 'rtcamps-ai-provider-for-openrouter' ),
+					$response->get_error_message()
+				)
+			);
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
+
+		if ( ! is_array( $data ) || ! isset( $data['data'] ) || ! is_array( $data['data'] ) ) {
+			return new \WP_Error(
+				'openrouter_decision_models_invalid',
+				__( 'Unexpected response from OpenRouter decision models endpoint.', 'rtcamps-ai-provider-for-openrouter' )
+			);
+		}
+
+		$models = array_values(
+			array_filter(
+				$data['data'],
+				static function ( $model ) {
+					return is_array( $model ) && isset( $model['id'] ) && is_string( $model['id'] ) && '' !== trim( $model['id'] );
+				}
+			)
+		);
+
+		set_transient( self::MODELS_DECISION_TRANSIENT, $models, self::MODELS_CACHE_TTL );
+
+		return $models;
+	}
+
+	/**
+	 * Returns sorted decision model IDs from OpenRouter.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return list<string> The decision model IDs, sorted.
+	 */
+	public static function get_decision_model_ids(): array {
+		$models = self::fetch_decision_models();
+		if ( is_wp_error( $models ) ) {
+			return [];
+		}
+
+		$ids = [];
+		foreach ( $models as $model ) {
+			if ( isset( $model['id'] ) && is_string( $model['id'] ) && '' !== trim( $model['id'] ) ) {
+				$ids[] = trim( $model['id'] );
+			}
+		}
+
+		sort( $ids );
+
+		return $ids;
+	}
+
+	/**
 	 * Returns the currently selected model from settings.
 	 *
 	 * @since 1.0.0
@@ -764,6 +945,19 @@ class OpenRouterSettings {
 	}
 
 	/**
+	 * Returns the currently selected decision model from settings.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @return string The decision model identifier, or empty string if none.
+	 */
+	public static function get_selected_decision_model(): string {
+		$settings       = self::get_settings();
+		$decision_model = ! empty( $settings[ self::KEY_DECISION_MODEL ] ) ? (string) $settings[ self::KEY_DECISION_MODEL ] : '';
+		return trim( $decision_model );
+	}
+
+	/**
 	 * Returns cached text-to-speech models from transient.
 	 *
 	 * @since 1.2.0
@@ -797,10 +991,11 @@ class OpenRouterSettings {
 	 */
 	private static function get_default_settings(): array {
 		return [
-			self::KEY_MODEL       => '',
-			self::KEY_IMAGE_MODEL => '',
-			self::KEY_TTS_MODEL   => self::DEFAULT_TTS_MODEL,
-			self::KEY_TTS_VOICE   => '',
+			self::KEY_MODEL          => '',
+			self::KEY_IMAGE_MODEL    => '',
+			self::KEY_TTS_MODEL      => self::DEFAULT_TTS_MODEL,
+			self::KEY_TTS_VOICE      => '',
+			self::KEY_DECISION_MODEL => '',
 		];
 	}
 }
