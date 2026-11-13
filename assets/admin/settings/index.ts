@@ -33,6 +33,7 @@ interface OpenRouterSettingsGlobal {
 	selectedImageModel?: string;
 	selectedTtsModel?: string;
 	selectedTtsVoice?: string;
+	selectedDecisionModel?: string;
 	i18n?: OpenRouterSettingsI18n;
 }
 
@@ -65,9 +66,11 @@ interface OpenRouterModel {
 	let allModels: OpenRouterModel[] = [];
 	let allImageModels: OpenRouterModel[] = [];
 	let allTtsModels: OpenRouterModel[] = [];
+	let allDecisionModels: OpenRouterModel[] = [];
 	let isLoaded = false;
 	let isImageLoaded = false;
 	let isTtsLoaded = false;
+	let isDecisionLoaded = false;
 
 	const settings = window.AIProviderForOpenRouterByrtCampSettings || {};
 	const i18n = settings.i18n || {};
@@ -1108,6 +1111,111 @@ interface OpenRouterModel {
 	}
 
 	/**
+	 * Filters loaded decision models based on the active search term.
+	 *
+	 * @param query Active search term.
+	 * @returns Matching decision models.
+	 */
+	function getDecisionModelMatches(query: string): OpenRouterModel[] {
+		if (!query) {
+			return allDecisionModels;
+		}
+
+		return allDecisionModels.filter(function (model) {
+			const id =
+				typeof model.id === 'string' ? model.id.toLowerCase() : '';
+			const name =
+				typeof model.name === 'string' ? model.name.toLowerCase() : '';
+			return id.indexOf(query) !== -1 || name.indexOf(query) !== -1;
+		});
+	}
+
+	/**
+	 * Filters decision models and renders matching dropdown suggestions.
+	 *
+	 * @param query               Search query.
+	 * @param dropdown            Dropdown element.
+	 * @param decisionSearchInput Autocomplete input.
+	 * @param decisionHiddenInput Hidden value storage input.
+	 * @param decisionInfoEl      Information badge container.
+	 */
+	function filterDecisionModels(
+		query: string,
+		dropdown: HTMLElement,
+		decisionSearchInput: HTMLInputElement,
+		decisionHiddenInput: HTMLInputElement,
+		decisionInfoEl: HTMLElement
+	): void {
+		renderDropdown(
+			getDecisionModelMatches(query).slice(0, 5),
+			dropdown,
+			decisionSearchInput,
+			decisionHiddenInput,
+			decisionInfoEl,
+			query
+		);
+	}
+
+	/**
+	 * Fetches decision models and resolves pre-loaded pricing cards.
+	 *
+	 * @param savedDecisionModel Saved decision model identifier value.
+	 * @param decisionStatusEl   Status element container.
+	 * @param decisionInfoEl     Information details card container.
+	 */
+	function loadDecisionModels(
+		savedDecisionModel: string,
+		decisionStatusEl: HTMLElement,
+		decisionInfoEl: HTMLElement
+	): void {
+		decisionStatusEl.textContent =
+			i18n.loading ||
+			__('Loading models…', 'rtcamps-ai-provider-for-openrouter');
+		decisionStatusEl.className =
+			'openrouter-status openrouter-status-loading';
+
+		apiFetch<OpenRouterModel[]>({
+			path: '/rtcamps-ai-provider-for-openrouter/v1/decision-models',
+		})
+			.then(function (data) {
+				allDecisionModels = data;
+				isDecisionLoaded = true;
+
+				decisionStatusEl.textContent =
+					allDecisionModels.length +
+					' ' +
+					__(
+						'decision models available.',
+						'rtcamps-ai-provider-for-openrouter'
+					);
+				decisionStatusEl.className =
+					'openrouter-status openrouter-status-ready';
+				decisionStatusEl.style.color = '';
+
+				if (savedDecisionModel) {
+					const selectedDecisionModelData = getDecisionModelMatches(
+						''
+					).find(function (model) {
+						return model.id === savedDecisionModel;
+					}) || { id: savedDecisionModel };
+					renderModelInfo(selectedDecisionModelData, decisionInfoEl);
+				}
+			})
+			.catch(function (error: unknown) {
+				const err = error as { message?: string };
+				decisionStatusEl.textContent =
+					err?.message ||
+					i18n.errorLoad ||
+					__(
+						'Could not load models.',
+						'rtcamps-ai-provider-for-openrouter'
+					);
+				decisionStatusEl.className = 'openrouter-status';
+				decisionStatusEl.style.color = '#d63638';
+			});
+	}
+
+	/**
 	 * Bootstraps autocompletes and layout handles once settings are loaded.
 	 */
 	function init(): void {
@@ -1173,10 +1281,34 @@ interface OpenRouterModel {
 		const savedModel = settings.selectedModel || '';
 		const savedImageModel = settings.selectedImageModel || '';
 		const savedTtsModel = settings.selectedTtsModel || '';
+		const savedDecisionModel = settings.selectedDecisionModel || '';
+
+		const decisionSearchInput = document.getElementById(
+			'ai_provider_for_openrouter_by_rtcamp_settings-decision-model-search'
+		) as HTMLInputElement | null;
+		const decisionHiddenInput = document.getElementById(
+			'ai_provider_for_openrouter_by_rtcamp_settings-decision-model-value'
+		) as HTMLInputElement | null;
+		const decisionDropdown = document.getElementById(
+			'openrouter-decision-model-dropdown'
+		);
+		const decisionInfoEl = document.getElementById(
+			'openrouter-decision-model-info'
+		);
+		const decisionStatusEl = document.getElementById(
+			'openrouter-decision-model-status'
+		);
 
 		// Trigger model loading
 		loadModels(savedModel, statusEl, infoEl);
 		loadImageModels(savedImageModel, imageStatusEl, imageInfoEl);
+		if (decisionStatusEl && decisionInfoEl) {
+			loadDecisionModels(
+				savedDecisionModel,
+				decisionStatusEl,
+				decisionInfoEl
+			);
+		}
 		if (ttsStatusEl && ttsInfoEl) {
 			loadTtsModels(
 				savedTtsModel,
@@ -1432,6 +1564,70 @@ interface OpenRouterModel {
 			ttsSearchInput.addEventListener('keydown', function (e) {
 				if (e.key === 'Escape') {
 					ttsDropdown.style.display = 'none';
+				}
+			});
+		}
+
+		// Decision Model inputs and events
+		if (
+			decisionSearchInput &&
+			decisionHiddenInput &&
+			decisionDropdown &&
+			decisionInfoEl &&
+			decisionStatusEl
+		) {
+			decisionSearchInput.addEventListener('input', function () {
+				decisionHiddenInput.value = this.value.trim();
+
+				if (!isDecisionLoaded) {
+					return;
+				}
+
+				filterDecisionModels(
+					this.value.trim().toLowerCase(),
+					decisionDropdown,
+					decisionSearchInput,
+					decisionHiddenInput,
+					decisionInfoEl
+				);
+			});
+
+			decisionSearchInput.addEventListener('focus', function () {
+				if (!isDecisionLoaded) {
+					decisionStatusEl.textContent =
+						i18n.loading ||
+						__(
+							'Loading models…',
+							'rtcamps-ai-provider-for-openrouter'
+						);
+					return;
+				}
+
+				decisionStatusEl.textContent =
+					getDecisionModelMatches('').length +
+					' ' +
+					__(
+						'decision models available.',
+						'rtcamps-ai-provider-for-openrouter'
+					);
+				filterDecisionModels(
+					this.value.trim().toLowerCase(),
+					decisionDropdown,
+					decisionSearchInput,
+					decisionHiddenInput,
+					decisionInfoEl
+				);
+			});
+
+			decisionSearchInput.addEventListener('blur', function () {
+				setTimeout(function () {
+					decisionDropdown.style.display = 'none';
+				}, 200);
+			});
+
+			decisionSearchInput.addEventListener('keydown', function (e) {
+				if (e.key === 'Escape') {
+					decisionDropdown.style.display = 'none';
 				}
 			});
 		}
