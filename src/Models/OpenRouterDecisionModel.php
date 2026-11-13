@@ -349,9 +349,21 @@ class OpenRouterDecisionModel extends AbstractApiBasedModel {
 		}
 
 		$usage             = isset( $response_data['usage'] ) && is_array( $response_data['usage'] ) ? $response_data['usage'] : [];
-		$prompt_tokens     = isset( $usage['prompt_tokens'] ) && is_int( $usage['prompt_tokens'] ) ? $usage['prompt_tokens'] : 0;
-		$completion_tokens = isset( $usage['completion_tokens'] ) && is_int( $usage['completion_tokens'] ) ? $usage['completion_tokens'] : 0;
-		$total_tokens      = isset( $usage['total_tokens'] ) && is_int( $usage['total_tokens'] ) ? $usage['total_tokens'] : ( $prompt_tokens + $completion_tokens );
+		$prompt_tokens     = 0;
+		if ( isset( $usage['prompt_tokens'] ) && is_int( $usage['prompt_tokens'] ) ) {
+			$prompt_tokens = $usage['prompt_tokens'];
+		} elseif ( isset( $usage['input_tokens'] ) && is_int( $usage['input_tokens'] ) ) {
+			$prompt_tokens = $usage['input_tokens'];
+		}
+
+		$completion_tokens = 0;
+		if ( isset( $usage['completion_tokens'] ) && is_int( $usage['completion_tokens'] ) ) {
+			$completion_tokens = $usage['completion_tokens'];
+		} elseif ( isset( $usage['output_tokens'] ) && is_int( $usage['output_tokens'] ) ) {
+			$completion_tokens = $usage['output_tokens'];
+		}
+
+		$total_tokens = isset( $usage['total_tokens'] ) && is_int( $usage['total_tokens'] ) ? $usage['total_tokens'] : ( $prompt_tokens + $completion_tokens );
 
 		return new DecisionResult(
 			isset( $response_data['model'] ) && is_string( $response_data['model'] ) ? $response_data['model'] : $this->metadata()->getId(),
